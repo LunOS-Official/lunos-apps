@@ -1,0 +1,67 @@
+{
+  "format": "LunOS App Repository",
+  "version": 1,
+  "repositoryId": "lunos-official-apps",
+  "name": "LunOS Official App Repository",
+  "publisher": "LunOS-Official",
+  "baseUrl": "https://raw.githubusercontent.com/LunOS-Official/lunos-apps/main/",
+  "packages": [
+    {
+      "id": "files",
+      "name": "File Explorer",
+      "version": "1.1.0",
+      "category": "system",
+      "publisher": null,
+      "license": null,
+      "sourceVisibility": null,
+      "permissions": [
+        "filesystem"
+      ],
+      "dependencies": [],
+      "sizeBytes": 16455,
+      "sha256": "37ab90aebe780d3cfc8b30748840b8b7e7edc170ac903a249478e01c2e412a81",
+      "contentDigest": null,
+      "url": "packages/file-explorer.ln",
+      "signature": null
+    },
+    {
+      "id": "terminal",
+      "name": "Konsole",
+      "version": "1.1.0",
+      "category": "development",
+      "publisher": null,
+      "license": null,
+      "sourceVisibility": null,
+      "permissions": [
+        "filesystem",
+        "process",
+        "package"
+      ],
+      "dependencies": [],
+      "sizeBytes": 15619,
+      "sha256": "7ed30e0788e2e23d7f14b43d277b2556bc886f53ecbc3cb643d873ce1acb4c31",
+      "contentDigest": null,
+      "url": "packages/konsole.ln",
+      "signature": null
+    },
+    {
+      "id": "browser",
+      "name": "Orbit Browser",
+      "version": "1.1.0",
+      "category": "internet",
+      "publisher": null,
+      "license": null,
+      "sourceVisibility": null,
+      "permissions": [
+        "network",
+        "filesystem"
+      ],
+      "dependencies": [],
+      "sizeBytes": 12824,
+      "sha256": "58df1e313f8187f3e300c57240c6e8ccfeaf98e057eca4c5707aa1ec728a3056",
+      "contentDigest": null,
+      "url": "packages/orbit-browser.ln",
+      "signature": null
+    }
+  ]
+}
