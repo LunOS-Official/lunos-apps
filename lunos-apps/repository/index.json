@@ -4,7 +4,7 @@
   "repositoryId": "lunos-official-apps",
   "name": "LunOS Official App Repository",
   "publisher": "LunOS-Official",
-  "baseUrl": "https://raw.githubusercontent.com/LunOS-Official/lunos-apps/main/",
+  "baseUrl": "https://raw.githubusercontent.com/LunOS-Official/lunos-apps/main/lunos-apps/",
   "packages": [
     {
       "id": "files",
