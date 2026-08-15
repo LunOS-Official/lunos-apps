@@ -1,0 +1,40 @@
+name: Validate and publish LN package catalog
+
+on:
+  push:
+    paths:
+      - 'packages/*.ln'
+      - 'tools/**'
+      - '.github/workflows/validate-packages.yml'
+  pull_request:
+    paths:
+      - 'packages/*.ln'
+      - 'tools/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify GitHub credential
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 tools/verify_github_token.py
+
+      - name: Validate LN packages
+        run: python3 tools/validate_packages.py
+
+      - name: Commit generated catalog
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "lunos-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add repository/index.json
+          git diff --cached --quiet || git commit -m "chore: update package catalog"
+          git push
