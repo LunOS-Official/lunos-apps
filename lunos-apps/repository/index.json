@@ -107,6 +107,29 @@
       "contentDigest": null,
       "url": "packages/orbit-browser.ln",
       "signature": null
+    },
+    {
+      "id": "lunos-test-app",
+      "name": "LunOS Test App",
+      "version": "1.2.0",
+      "description": "A tiny test package for verifying the LunOS App Store publisher.",
+      "category": "utilities",
+      "publisher": {
+        "id": "lunos-official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License"
+      },
+      "sourceVisibility": "open-source",
+      "screenshots": [],
+      "iconUrl": null,
+      "permissions": [],
+      "dependencies": [],
+      "sizeBytes": 693,
+      "sha256": "08b935e4de9486c88c3614aca8548cb0b3bcfe30324de0cb67a5efe7d4ad6a93",
+      "package": "lunos-apps/packages/lunos-official/lunos-test-app/1.2.0.ln"
     }
   ]
 }
