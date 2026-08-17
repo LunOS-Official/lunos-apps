@@ -45,25 +45,6 @@
       "signature": null
     },
     {
-      "id": "browser",
-      "name": "Orbit Browser",
-      "version": "1.1.0",
-      "category": "internet",
-      "publisher": null,
-      "license": null,
-      "sourceVisibility": null,
-      "permissions": [
-        "network",
-        "filesystem"
-      ],
-      "dependencies": [],
-      "sizeBytes": 12824,
-      "sha256": "58df1e313f8187f3e300c57240c6e8ccfeaf98e057eca4c5707aa1ec728a3056",
-      "contentDigest": null,
-      "url": "packages/orbit-browser.ln",
-      "signature": null
-    },
-    {
       "id": "lunos-test-app",
       "name": "LunOS Test App",
       "version": "1.0.0",
@@ -84,6 +65,48 @@
       "sizeBytes": 625,
       "sha256": "eb5533f3d5e2d692ce3f2c8da91b1dfd3c0de11456c5da37604740a4998a34db",
       "package": "lunos-apps/packages/lunos-test-app-1.0.0.ln"
+    },
+    {
+      "id": "lunos-test-app",
+      "name": "LunOS Test App",
+      "version": "1.1.0",
+      "category": "utilities",
+      "publisher": {
+        "id": "lunos-official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License"
+      },
+      "sourceVisibility": "open-source",
+      "description": "A tiny test package for verifying the LunOS App Store publisher.",
+      "screenshots": [],
+      "iconUrl": null,
+      "permissions": [],
+      "dependencies": [],
+      "sizeBytes": 693,
+      "sha256": "a8efb27b529eaad8066f39bff76488f468ae79b78ae997ce84267453f07ccfc9",
+      "package": "lunos-apps/packages/lunos-official/lunos-test-app/1.1.0.ln"
+    },
+    {
+      "id": "browser",
+      "name": "Orbit Browser",
+      "version": "1.1.0",
+      "category": "internet",
+      "publisher": null,
+      "license": null,
+      "sourceVisibility": null,
+      "permissions": [
+        "network",
+        "filesystem"
+      ],
+      "dependencies": [],
+      "sizeBytes": 12824,
+      "sha256": "58df1e313f8187f3e300c57240c6e8ccfeaf98e057eca4c5707aa1ec728a3056",
+      "contentDigest": null,
+      "url": "packages/orbit-browser.ln",
+      "signature": null
     }
   ]
 }
