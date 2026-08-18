@@ -7,6 +7,25 @@
   "baseUrl": "https://raw.githubusercontent.com/LunOS-Official/lunos-apps/main/lunos-apps/",
   "packages": [
     {
+      "id": "browser",
+      "name": "Orbit Browser",
+      "version": "1.1.0",
+      "category": "internet",
+      "publisher": null,
+      "license": null,
+      "sourceVisibility": null,
+      "permissions": [
+        "network",
+        "filesystem"
+      ],
+      "dependencies": [],
+      "sizeBytes": 12824,
+      "sha256": "58df1e313f8187f3e300c57240c6e8ccfeaf98e057eca4c5707aa1ec728a3056",
+      "contentDigest": null,
+      "url": "packages/orbit-browser.ln",
+      "signature": null
+    },
+    {
       "id": "files",
       "name": "File Explorer",
       "version": "1.1.0",
@@ -22,26 +41,6 @@
       "sha256": "37ab90aebe780d3cfc8b30748840b8b7e7edc170ac903a249478e01c2e412a81",
       "contentDigest": null,
       "url": "packages/file-explorer.ln",
-      "signature": null
-    },
-    {
-      "id": "terminal",
-      "name": "Konsole",
-      "version": "1.1.0",
-      "category": "development",
-      "publisher": null,
-      "license": null,
-      "sourceVisibility": null,
-      "permissions": [
-        "filesystem",
-        "process",
-        "package"
-      ],
-      "dependencies": [],
-      "sizeBytes": 15619,
-      "sha256": "7ed30e0788e2e23d7f14b43d277b2556bc886f53ecbc3cb643d873ce1acb4c31",
-      "contentDigest": null,
-      "url": "packages/konsole.ln",
       "signature": null
     },
     {
@@ -64,7 +63,7 @@
       "dependencies": [],
       "sizeBytes": 625,
       "sha256": "eb5533f3d5e2d692ce3f2c8da91b1dfd3c0de11456c5da37604740a4998a34db",
-      "package": "lunos-apps/packages/lunos-test-app-1.0.0.ln"
+      "package": "packages/lunos-test-app-1.0.0.ln"
     },
     {
       "id": "lunos-test-app",
@@ -87,26 +86,7 @@
       "dependencies": [],
       "sizeBytes": 693,
       "sha256": "a8efb27b529eaad8066f39bff76488f468ae79b78ae997ce84267453f07ccfc9",
-      "package": "lunos-apps/packages/lunos-official/lunos-test-app/1.1.0.ln"
-    },
-    {
-      "id": "browser",
-      "name": "Orbit Browser",
-      "version": "1.1.0",
-      "category": "internet",
-      "publisher": null,
-      "license": null,
-      "sourceVisibility": null,
-      "permissions": [
-        "network",
-        "filesystem"
-      ],
-      "dependencies": [],
-      "sizeBytes": 12824,
-      "sha256": "58df1e313f8187f3e300c57240c6e8ccfeaf98e057eca4c5707aa1ec728a3056",
-      "contentDigest": null,
-      "url": "packages/orbit-browser.ln",
-      "signature": null
+      "package": "packages/lunos-official/lunos-test-app/1.1.0.ln"
     },
     {
       "id": "lunos-test-app",
@@ -129,7 +109,7 @@
       "dependencies": [],
       "sizeBytes": 693,
       "sha256": "08b935e4de9486c88c3614aca8548cb0b3bcfe30324de0cb67a5efe7d4ad6a93",
-      "package": "lunos-apps/packages/lunos-official/lunos-test-app/1.2.0.ln"
+      "package": "packages/lunos-official/lunos-test-app/1.2.0.ln"
     },
     {
       "id": "lunos-test-app",
@@ -152,7 +132,83 @@
       "dependencies": [],
       "sizeBytes": 693,
       "sha256": "47f707f4e89c2a009117da2933c5e50747746e3a9fdce89c9bcb27bcdc66e416",
-      "package": "lunos-apps/packages/lunos-official/lunos-test-app/1.3.0.ln"
+      "package": "packages/lunos-official/lunos-test-app/1.3.0.ln"
+    },
+    {
+      "id": "lunpad",
+      "name": "Lunpad",
+      "version": "1.0.0",
+      "category": "utility",
+      "publisher": {
+        "id": "coc360256",
+        "name": "CoC",
+        "email": "coc360256@gmail.com"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Lunpad is a compact Windows-style text editor for LunOS, designed for desktop windows and touch-first mobile devices.",
+      "screenshots": [],
+      "iconUrl": null,
+      "permissions": [
+        "filesystem"
+      ],
+      "dependencies": [],
+      "sizeBytes": 12745,
+      "sha256": "a6120f697f43ec906e40ffd692725992cdf1339ed5e6917572d022518230a14c",
+      "package": "packages/coc360256/lunpad/1.0.0.ln",
+      "versions": [
+        {
+          "id": "lunpad",
+          "name": "Lunpad",
+          "version": "1.0.0",
+          "category": "utility",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Lunpad is a compact Windows-style text editor for LunOS, designed for desktop windows and touch-first mobile devices.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [
+            "filesystem"
+          ],
+          "dependencies": [],
+          "sizeBytes": 12745,
+          "sha256": "a6120f697f43ec906e40ffd692725992cdf1339ed5e6917572d022518230a14c",
+          "package": "packages/coc360256/lunpad/1.0.0.ln"
+        }
+      ]
+    },
+    {
+      "id": "terminal",
+      "name": "Konsole",
+      "version": "1.1.0",
+      "category": "development",
+      "publisher": null,
+      "license": null,
+      "sourceVisibility": null,
+      "permissions": [
+        "filesystem",
+        "process",
+        "package"
+      ],
+      "dependencies": [],
+      "sizeBytes": 15619,
+      "sha256": "7ed30e0788e2e23d7f14b43d277b2556bc886f53ecbc3cb643d873ce1acb4c31",
+      "contentDigest": null,
+      "url": "packages/konsole.ln",
+      "signature": null
     }
   ]
 }
