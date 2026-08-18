@@ -44,6 +44,58 @@
       "signature": null
     },
     {
+      "id": "hello-test",
+      "name": "Hello Test",
+      "version": "1.0.0",
+      "category": "utility",
+      "publisher": {
+        "id": "coc360256",
+        "name": "CoC",
+        "email": "coc360256@gmail.com"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "A minimal legacy-format .ln test application.",
+      "screenshots": [],
+      "iconUrl": null,
+      "permissions": [],
+      "dependencies": [],
+      "sizeBytes": 1974,
+      "sha256": "ad04875530119bb632293a97298d40c53b95f8bc5122078a69df81dedbb74c1d",
+      "package": "packages/coc360256/hello-test/1.0.0.ln",
+      "versions": [
+        {
+          "id": "hello-test",
+          "name": "Hello Test",
+          "version": "1.0.0",
+          "category": "utility",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "A minimal legacy-format .ln test application.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [],
+          "dependencies": [],
+          "sizeBytes": 1974,
+          "sha256": "ad04875530119bb632293a97298d40c53b95f8bc5122078a69df81dedbb74c1d",
+          "package": "packages/coc360256/hello-test/1.0.0.ln"
+        }
+      ]
+    },
+    {
       "id": "lunos-test-app",
       "name": "LunOS Test App",
       "version": "1.0.0",
