@@ -214,7 +214,7 @@
     {
       "id": "lunpad",
       "name": "Lunpad",
-      "version": "2.0.0",
+      "version": "3.0.0",
       "category": "utility",
       "publisher": {
         "id": "coc360256",
@@ -227,16 +227,14 @@
         "url": "https://opensource.org/license/mit/"
       },
       "sourceVisibility": "open-source",
-      "description": "Lunpad is a compact Windows-style text editor for LunOS, designed for desktop windows and touch-first mobile devices.",
+      "description": "A mobile-friendly, desktop-style Notepad clone with editing, find/replace, autosave, zoom, word wrap, line numbers and file import/export.",
       "screenshots": [],
       "iconUrl": null,
-      "permissions": [
-        "filesystem"
-      ],
+      "permissions": [],
       "dependencies": [],
-      "sizeBytes": 13249,
-      "sha256": "69990bc10a975e33987ec69197fb4e7b3700c13e103a7d597ea04b931c358080",
-      "package": "packages/coc360256/lunpad/2.0.0.ln",
+      "sizeBytes": 4658,
+      "sha256": "79504e919bb6e91d9e5a087eedc30b181941f68cbbda48cac75e331c8b09a965",
+      "package": "packages/coc360256/lunpad/3.0.0.ln",
       "versions": [
         {
           "id": "lunpad",
@@ -318,6 +316,31 @@
           "sizeBytes": 13249,
           "sha256": "69990bc10a975e33987ec69197fb4e7b3700c13e103a7d597ea04b931c358080",
           "package": "packages/coc360256/lunpad/2.0.0.ln"
+        },
+        {
+          "id": "lunpad",
+          "name": "Lunpad",
+          "version": "3.0.0",
+          "category": "utility",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "A mobile-friendly, desktop-style Notepad clone with editing, find/replace, autosave, zoom, word wrap, line numbers and file import/export.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [],
+          "dependencies": [],
+          "sizeBytes": 4658,
+          "sha256": "79504e919bb6e91d9e5a087eedc30b181941f68cbbda48cac75e331c8b09a965",
+          "package": "packages/coc360256/lunpad/3.0.0.ln"
         }
       ]
     },
