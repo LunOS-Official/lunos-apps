@@ -123,7 +123,7 @@
     {
       "id": "lunite",
       "name": "Lunite",
-      "version": "4.0.0",
+      "version": "4.3.0",
       "category": "utility",
       "publisher": {
         "id": "coc360256",
@@ -136,14 +136,14 @@
         "url": "https://opensource.org/license/mit/"
       },
       "sourceVisibility": "open-source",
-      "description": "A mobile-friendly, desktop-style Notepad clone with editing, find/replace, autosave, zoom, word wrap, line numbers and file import/export.",
+      "description": "Universal LunOS API software builder with live preview bridge, manifest examples and package publishing.",
       "screenshots": [],
       "iconUrl": null,
       "permissions": [],
       "dependencies": [],
-      "sizeBytes": 16855,
-      "sha256": "a0c67d863d6ccbdc1fb1e8d8e75807e856f70b91f55b1067b88fcc2a03507094",
-      "package": "packages/coc360256/lunite/4.0.0.ln",
+      "sizeBytes": 24223,
+      "sha256": "b7f02b7bea082cba90a795eb9c82317e253d00ed38f47a779f959203a2625908",
+      "package": "packages/coc360256/lunite/4.3.0.ln",
       "versions": [
         {
           "id": "lunite",
@@ -193,6 +193,31 @@
           "sizeBytes": 16855,
           "sha256": "a0c67d863d6ccbdc1fb1e8d8e75807e856f70b91f55b1067b88fcc2a03507094",
           "package": "packages/coc360256/lunite/4.0.0.ln"
+        },
+        {
+          "id": "lunite",
+          "name": "Lunite",
+          "version": "4.3.0",
+          "category": "utility",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Universal LunOS API software builder with live preview bridge, manifest examples and package publishing.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [],
+          "dependencies": [],
+          "sizeBytes": 24223,
+          "sha256": "b7f02b7bea082cba90a795eb9c82317e253d00ed38f47a779f959203a2625908",
+          "package": "packages/coc360256/lunite/4.3.0.ln"
         }
       ]
     },
