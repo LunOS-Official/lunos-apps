@@ -121,6 +121,56 @@
       ]
     },
     {
+      "id": "lunite",
+      "name": "Lunite",
+      "version": "1.3.0",
+      "category": "utilities",
+      "publisher": {
+        "id": "coc360256",
+        "name": "CoC",
+        "email": "coc360256@gmail.com"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License"
+      },
+      "sourceVisibility": "open-source",
+      "description": "A tiny test package for verifying the LunOS App Store publisher.",
+      "screenshots": [],
+      "iconUrl": null,
+      "permissions": [],
+      "dependencies": [],
+      "sizeBytes": 16720,
+      "sha256": "134925bc123d43d36a7deb9382cb93c459466f256f3e5539bea7a44493721ccc",
+      "package": "packages/coc360256/lunite/1.3.0.ln",
+      "versions": [
+        {
+          "id": "lunite",
+          "name": "Lunite",
+          "version": "1.3.0",
+          "category": "utilities",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License"
+          },
+          "sourceVisibility": "open-source",
+          "description": "A tiny test package for verifying the LunOS App Store publisher.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [],
+          "dependencies": [],
+          "sizeBytes": 16720,
+          "sha256": "134925bc123d43d36a7deb9382cb93c459466f256f3e5539bea7a44493721ccc",
+          "package": "packages/coc360256/lunite/1.3.0.ln"
+        }
+      ]
+    },
+    {
       "id": "lunos-test-app",
       "name": "LunOS Test App",
       "version": "1.0.0",
