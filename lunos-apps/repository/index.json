@@ -342,6 +342,33 @@
         {
           "id": "lunpad",
           "name": "Lunpad",
+          "version": "1.0.2",
+          "category": "utility",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Lunpad is a compact Windows-style text editor for LunOS, designed for desktop windows and touch-first mobile devices.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [
+            "filesystem"
+          ],
+          "dependencies": [],
+          "sizeBytes": 13820,
+          "sha256": "966c98d00c1b2fa8fe3a47c387c2e14ba7a3b2bc4adf4426e4c5ab38509f52c9",
+          "package": "packages/coc360256/lunpad/1.0.2.ln"
+        },
+        {
+          "id": "lunpad",
+          "name": "Lunpad",
           "version": "1.1.0",
           "category": "utility",
           "publisher": {
