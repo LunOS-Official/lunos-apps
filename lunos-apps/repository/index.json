@@ -197,6 +197,31 @@
         {
           "id": "lunite",
           "name": "Lunite",
+          "version": "4.2.5",
+          "category": "utility",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Universal LunOS software builder with live preview, reusable developer console, contextual Help Tutor and package publishing.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [],
+          "dependencies": [],
+          "sizeBytes": 33157,
+          "sha256": "637656735465ba4d497b6cc4071920cfb47620efe2f976fbd009f5f7d0961f45",
+          "package": "packages/coc360256/lunite/4.2.5.ln"
+        },
+        {
+          "id": "lunite",
+          "name": "Lunite",
           "version": "4.3.0",
           "category": "utility",
           "publisher": {
