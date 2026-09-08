@@ -548,6 +548,62 @@
       ]
     },
     {
+      "id": "orgl",
+      "name": "Luna · Universal API Showcase",
+      "version": "1.0.0",
+      "category": "development",
+      "publisher": {
+        "id": "coc360256",
+        "name": "CoC",
+        "email": "coc360256@gmail.com"
+      },
+      "license": {
+        "id": "MIT"
+      },
+      "sourceVisibility": "open-source",
+      "description": "A hands-on LunOS project demonstrating universal filesystem, storage, auth, UI, animation, launcher and other kernel APIs.",
+      "screenshots": [],
+      "iconUrl": null,
+      "permissions": [
+        "filesystem",
+        "storage",
+        "network"
+      ],
+      "dependencies": [],
+      "sizeBytes": 3948,
+      "sha256": "de7d2c2b0e1e2f2e68d47ee270a8c98ec5e88f5a21786c97f019564bd4f55de7",
+      "package": "packages/coc360256/orgl/1.0.0.ln",
+      "versions": [
+        {
+          "id": "orgl",
+          "name": "Luna · Universal API Showcase",
+          "version": "1.0.0",
+          "category": "development",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT"
+          },
+          "sourceVisibility": "open-source",
+          "description": "A hands-on LunOS project demonstrating universal filesystem, storage, auth, UI, animation, launcher and other kernel APIs.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [
+            "filesystem",
+            "storage",
+            "network"
+          ],
+          "dependencies": [],
+          "sizeBytes": 3948,
+          "sha256": "de7d2c2b0e1e2f2e68d47ee270a8c98ec5e88f5a21786c97f019564bd4f55de7",
+          "package": "packages/coc360256/orgl/1.0.0.ln"
+        }
+      ]
+    },
+    {
       "id": "terminal",
       "name": "Konsole",
       "version": "1.1.0",
