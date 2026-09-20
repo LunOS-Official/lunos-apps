@@ -14,7 +14,7 @@ def get(url):
     req = urllib.request.Request(url, headers={
         "Accept": "application/vnd.github+json",
         "Authorization": f"Bearer {token}",
-        "X-GitHub-Api-Version": "2026-03-10",
+        "X-GitHub-Api-Version": "2022-11-28",
         "User-Agent": "LunOS-package-validator"
     })
     with urllib.request.urlopen(req, timeout=15) as r:
