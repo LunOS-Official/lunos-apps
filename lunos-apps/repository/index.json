@@ -46,7 +46,7 @@
     {
       "id": "hello-test",
       "name": "Hello Test",
-      "version": "4.0.0",
+      "version": "5.0.0",
       "category": "utility",
       "publisher": {
         "id": "coc360256",
@@ -59,14 +59,25 @@
         "url": "https://opensource.org/license/mit/"
       },
       "sourceVisibility": "open-source",
-      "description": "A minimal legacy-format .ln test application.",
-      "screenshots": [],
-      "iconUrl": null,
-      "permissions": [],
+      "description": "Hello Test v5 — a complete LN package and LN Store media compatibility test application.",
+      "screenshots": [
+        "store/screenshots/01.png",
+        "store/screenshots/02.jpg",
+        "store/screenshots/03.webp",
+        "store/screenshots/04.gif",
+        "store/screenshots/05.svg",
+        "store/screenshots/06.avif",
+        "store/screenshots/07.bmp",
+        "store/screenshots/08.ico"
+      ],
+      "iconUrl": "store/icon.png",
+      "permissions": [
+        "storage"
+      ],
       "dependencies": [],
-      "sizeBytes": 34076,
-      "sha256": "5f18d968345a27a39e08d28c98f65f034cbe0d53c96176166ca479db661c4b81",
-      "package": "packages/coc360256/hello-test/4.0.0.ln",
+      "sizeBytes": 536968,
+      "sha256": "7365af69435f02958618782a6514246ad758617392d9c9d748e31e75388b2bdd",
+      "package": "packages/coc360256/hello-test/5.0.0.ln",
       "versions": [
         {
           "id": "hello-test",
@@ -167,6 +178,42 @@
           "sizeBytes": 34076,
           "sha256": "5f18d968345a27a39e08d28c98f65f034cbe0d53c96176166ca479db661c4b81",
           "package": "packages/coc360256/hello-test/4.0.0.ln"
+        },
+        {
+          "id": "hello-test",
+          "name": "Hello Test",
+          "version": "5.0.0",
+          "category": "utility",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Hello Test v5 — a complete LN package and LN Store media compatibility test application.",
+          "screenshots": [
+            "store/screenshots/01.png",
+            "store/screenshots/02.jpg",
+            "store/screenshots/03.webp",
+            "store/screenshots/04.gif",
+            "store/screenshots/05.svg",
+            "store/screenshots/06.avif",
+            "store/screenshots/07.bmp",
+            "store/screenshots/08.ico"
+          ],
+          "iconUrl": "store/icon.png",
+          "permissions": [
+            "storage"
+          ],
+          "dependencies": [],
+          "sizeBytes": 536968,
+          "sha256": "7365af69435f02958618782a6514246ad758617392d9c9d748e31e75388b2bdd",
+          "package": "packages/coc360256/hello-test/5.0.0.ln"
         }
       ]
     },
