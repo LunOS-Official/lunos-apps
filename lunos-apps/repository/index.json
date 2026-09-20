@@ -46,7 +46,7 @@
     {
       "id": "hello-test",
       "name": "Hello Test",
-      "version": "2.0.0",
+      "version": "3.0.0",
       "category": "utility",
       "publisher": {
         "id": "coc360256",
@@ -64,9 +64,9 @@
       "iconUrl": null,
       "permissions": [],
       "dependencies": [],
-      "sizeBytes": 3856,
-      "sha256": "72079d61b6821d984b1c3dfe9713bad379dbddec1a4fba6f39339b78dc3b9e2d",
-      "package": "packages/coc360256/hello-test/2.0.0.ln",
+      "sizeBytes": 34078,
+      "sha256": "bed37b58570639b8b44e8270bc02621b990723a884f64b5b9f06d36a38a24e83",
+      "package": "packages/coc360256/hello-test/3.0.0.ln",
       "versions": [
         {
           "id": "hello-test",
@@ -117,6 +117,31 @@
           "sizeBytes": 3856,
           "sha256": "72079d61b6821d984b1c3dfe9713bad379dbddec1a4fba6f39339b78dc3b9e2d",
           "package": "packages/coc360256/hello-test/2.0.0.ln"
+        },
+        {
+          "id": "hello-test",
+          "name": "Hello Test",
+          "version": "3.0.0",
+          "category": "utility",
+          "publisher": {
+            "id": "coc360256",
+            "name": "CoC",
+            "email": "coc360256@gmail.com"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "A minimal legacy-format .ln test application.",
+          "screenshots": [],
+          "iconUrl": null,
+          "permissions": [],
+          "dependencies": [],
+          "sizeBytes": 34078,
+          "sha256": "bed37b58570639b8b44e8270bc02621b990723a884f64b5b9f06d36a38a24e83",
+          "package": "packages/coc360256/hello-test/3.0.0.ln"
         }
       ]
     },
