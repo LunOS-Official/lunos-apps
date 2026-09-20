@@ -7,5 +7,140 @@
   "purpose": "Official catalog and package repository for applications distributed by the LunOS operating system.",
   "baseUrl": "https://raw.githubusercontent.com/LunOS-Official/lunos-apps/main/",
   "packageFormat": "LNPK",
-  "packages": []
+  "packages": [
+    {
+      "id": "hello-test",
+      "name": "Hello Test",
+      "version": "5.0.0",
+      "category": "utility",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Hello Test v5 — a complete LN package and LN Store media compatibility test application.",
+      "shortDescription": "Tests HTML, CSS, JS, package assets and all supported Store image formats.",
+      "screenshots": [
+        "store/screenshots/01.png",
+        "store/screenshots/02.jpg",
+        "store/screenshots/03.webp",
+        "store/screenshots/04.gif",
+        "store/screenshots/05.svg",
+        "store/screenshots/06.avif",
+        "store/screenshots/07.bmp",
+        "store/screenshots/08.ico"
+      ],
+      "iconUrl": "store/icon.png",
+      "featureGraphic": "store/feature.webp",
+      "permissions": [
+        "storage"
+      ],
+      "keywords": [
+        "hello",
+        "test",
+        "ln",
+        "lnpk",
+        "media",
+        "store",
+        "images"
+      ],
+      "targets": [
+        "mobile",
+        "tablet",
+        "desktop"
+      ],
+      "minApiLevel": 1,
+      "features": [
+        "HTML entry",
+        "External CSS",
+        "External JavaScript",
+        "Package assets",
+        "LN Store media",
+        "All supported image formats"
+      ],
+      "homepage": "https://github.com/LunOS-Official/lunos-apps",
+      "repository": "https://github.com/LunOS-Official/lunos-apps",
+      "supportUrl": "https://github.com/LunOS-Official/lunos-apps/issues",
+      "privacyPolicy": "https://github.com/LunOS-Official/lunos-apps",
+      "sizeBytes": 536968,
+      "sha256": "7365af69435f02958618782a6514246ad758617392d9c9d748e31e75388b2bdd",
+      "package": "packages/5.0.0.ln",
+      "url": "packages/5.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": 1,
+      "versions": [
+        {
+          "id": "hello-test",
+          "name": "Hello Test",
+          "version": "5.0.0",
+          "category": "utility",
+          "publisher": {
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Hello Test v5 — a complete LN package and LN Store media compatibility test application.",
+          "shortDescription": "Tests HTML, CSS, JS, package assets and all supported Store image formats.",
+          "screenshots": [
+            "store/screenshots/01.png",
+            "store/screenshots/02.jpg",
+            "store/screenshots/03.webp",
+            "store/screenshots/04.gif",
+            "store/screenshots/05.svg",
+            "store/screenshots/06.avif",
+            "store/screenshots/07.bmp",
+            "store/screenshots/08.ico"
+          ],
+          "iconUrl": "store/icon.png",
+          "featureGraphic": "store/feature.webp",
+          "permissions": [
+            "storage"
+          ],
+          "keywords": [
+            "hello",
+            "test",
+            "ln",
+            "lnpk",
+            "media",
+            "store",
+            "images"
+          ],
+          "targets": [
+            "mobile",
+            "tablet",
+            "desktop"
+          ],
+          "minApiLevel": 1,
+          "features": [
+            "HTML entry",
+            "External CSS",
+            "External JavaScript",
+            "Package assets",
+            "LN Store media",
+            "All supported image formats"
+          ],
+          "homepage": "https://github.com/LunOS-Official/lunos-apps",
+          "repository": "https://github.com/LunOS-Official/lunos-apps",
+          "supportUrl": "https://github.com/LunOS-Official/lunos-apps/issues",
+          "privacyPolicy": "https://github.com/LunOS-Official/lunos-apps",
+          "sizeBytes": 536968,
+          "sha256": "7365af69435f02958618782a6514246ad758617392d9c9d748e31e75388b2bdd",
+          "package": "packages/5.0.0.ln",
+          "url": "packages/5.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": 1
+        }
+      ]
+    }
+  ]
 }
