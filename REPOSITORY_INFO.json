@@ -1,0 +1,31 @@
+{
+  "repositoryType": "software-package-registry",
+  "name": "LunOS Official App Repository",
+  "repositoryId": "lunos-official-apps",
+  "official": true,
+  "officialOrganization": "LunOS-Official",
+  "purpose": "Distribute and catalog LNPK application packages for the LunOS App Store.",
+  "packageExtension": ".ln",
+  "packageFormat": "LNPK",
+  "catalogPath": "repository/index.json",
+  "packageRoot": "packages/",
+  "sourceRepository": "https://github.com/LunOS-Official/lunos-apps",
+  "rawBaseUrl": "https://raw.githubusercontent.com/LunOS-Official/lunos-apps/main/",
+  "publisherService": "LunOS Publisher Worker",
+  "publisherServicePurpose": "Server-side developer authentication and package publishing to this repository.",
+  "securityNotes": [
+    "No personal GitHub token is stored in this repository.",
+    "Publisher credentials belong on the server side only.",
+    "Package permissions are declared in package manifests and should be reviewed before installation."
+  ],
+  "version": 1,
+  "repository": "LunOS-Official/lunos-apps",
+  "description": "Official LunOS App Store package repository and its server-side publishing infrastructure.",
+  "single_repository": true,
+  "includes": [
+    "LNPK application packages",
+    "App Store catalog",
+    "validation and GitHub Actions tooling",
+    "Cloudflare Publisher Worker source and configuration"
+  ]
+}
