@@ -46,17 +46,17 @@ LunOS App Store can display those details before installation.
 
 ```text
 lunos-apps/
-├── packages/                  # LNPK application packages
-├── repository/
-│   └── index.json             # App Store catalog
-├── tools/
-│   ├── validate_packages.py   # validates packages + regenerates catalog
-│   └── verify_github_token.py # verifies Actions repository identity
-├── .github/workflows/
-│   └── validate-packages.yml
-├── README.md
-├── SECURITY.md
-└── REPOSITORY_INFO.json
+â”œâ”€â”€ packages/                  # LNPK application packages
+â”œâ”€â”€ repository/
+â”‚   â””â”€â”€ index.json             # App Store catalog
+â”œâ”€â”€ tools/
+â”‚   â”œâ”€â”€ validate_packages.py   # validates packages + regenerates catalog
+â”‚   â””â”€â”€ verify_github_token.py # verifies Actions repository identity
+â”œâ”€â”€ .github/workflows/
+â”‚   â””â”€â”€ validate-packages.yml
+â”œâ”€â”€ README.md
+â”œâ”€â”€ SECURITY.md
+â””â”€â”€ REPOSITORY_INFO.json
 ```
 
 ## Publishing model
@@ -78,3 +78,16 @@ No GitHub personal access token is stored in this repository.
 - Package binaries: `packages/**/*.ln`
 
 For security reports, see `SECURITY.md`.
+
+## Lun Store (v2)
+
+Lun Store is no longer only for .ln apps - themes, icons, fonts, wallpapers,
+cursors, widgets, sound packs and GUI/CLI packages all live here.
+- Catalog format: `repository/CATALOG.md` (every entry carries `type` + `sha256`)
+- Social data (comments, likes, ratings, sync, Fyn): `supabase/schema.sql`
+  (run it in the Supabase SQL Editor; give the Worker the `SUPABASE_URL` and
+  `SUPABASE_SERVICE_KEY` secrets - the key never reaches the client)
+- Large files: `hf/` (Hugging Face Bucket layout + upload script)
+- Uploader terms and takedown: `POLICY.md`
+- New Worker routes: `/api/track-download`, `/api/like`, `/api/rate`,
+  `/api/comments`, `/api/favorites`, `/api/report`, `/api/leaderboard`, `/api/sync`
