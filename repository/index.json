@@ -170,6 +170,186 @@
         "dark",
         "glass"
       ]
+    },
+    {
+      "format": "LNPK",
+      "version": "1.0.0",
+      "id": "widget-demo",
+      "name": "Widget Demo Pack",
+      "appVersion": "1.0.0",
+      "type": "widget",
+      "category": "widget",
+      "compression": "deflate",
+      "blockMode": "entry",
+      "files": [
+        {
+          "path": "README.txt",
+          "type": "text"
+        },
+        {
+          "path": "widgets/counter.html",
+          "type": "html"
+        }
+      ],
+      "permissions": [],
+      "description": "Demonstration widget package for LunOS Widget API v1: one declarative clock widget bound to DataEngines, plus one fully custom-code tap counter widget (sandboxed iframe + host RPC).",
+      "shortDescription": "Two example desktop widgets: engine-bound clock + custom-code counter.",
+      "publisher": {
+        "id": "acoz",
+        "name": "Acoz",
+        "email": "acoz@lunos"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "widgets": [
+        {
+          "id": "demo-clock",
+          "name": "Demo Clock",
+          "icon": "fa-solid fa-clock",
+          "color": "#7aa2ff",
+          "card": "clean",
+          "w": 230,
+          "h": 132,
+          "updateSeconds": 60,
+          "view": [
+            {
+              "type": "caption",
+              "text": "Widget Demo Pack"
+            },
+            {
+              "type": "big",
+              "text": "{{time.timeText}} {{time.ampm}}"
+            },
+            {
+              "type": "text",
+              "text": "{{store.installedApps}} apps on this device"
+            }
+          ]
+        },
+        {
+          "id": "demo-counter",
+          "name": "Tap Counter",
+          "icon": "fa-solid fa-hand-pointer",
+          "color": "#fb7185",
+          "w": 250,
+          "h": 216,
+          "updateSeconds": 60,
+          "viewUrl": "widgets/counter.html"
+        }
+      ],
+      "screenshots": [],
+      "iconUrl": null,
+      "featureGraphic": null,
+      "dependencies": [],
+      "keywords": [],
+      "targets": [],
+      "features": [],
+      "sizeBytes": 4223,
+      "sha256": "ae3a8d81679ef7e8fac5f4419d0b1bca5ea07e802a2e6ac55a11557fff05a09c",
+      "package": "packages/acoz/widget-demo/1.0.0.ln",
+      "url": "packages/acoz/widget-demo/1.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": 1,
+      "firstPublishedAt": "2026-10-13T22:13:39.015Z",
+      "publishedAt": "2026-10-13T22:13:39.015Z",
+      "versionReleaseDate": "2026-10-13T22:13:39.015Z",
+      "releaseDate": "2026-10-13T22:13:39.015Z",
+      "uploadedAt": "2026-10-13T22:13:39.015Z",
+      "versions": [
+        {
+          "format": "LNPK",
+          "version": "1.0.0",
+          "id": "widget-demo",
+          "name": "Widget Demo Pack",
+          "appVersion": "1.0.0",
+          "type": "widget",
+          "category": "widget",
+          "compression": "deflate",
+          "blockMode": "entry",
+          "files": [
+            {
+              "path": "README.txt",
+              "type": "text"
+            },
+            {
+              "path": "widgets/counter.html",
+              "type": "html"
+            }
+          ],
+          "permissions": [],
+          "description": "Demonstration widget package for LunOS Widget API v1: one declarative clock widget bound to DataEngines, plus one fully custom-code tap counter widget (sandboxed iframe + host RPC).",
+          "shortDescription": "Two example desktop widgets: engine-bound clock + custom-code counter.",
+          "publisher": {
+            "id": "acoz",
+            "name": "Acoz",
+            "email": "acoz@lunos"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "widgets": [
+            {
+              "id": "demo-clock",
+              "name": "Demo Clock",
+              "icon": "fa-solid fa-clock",
+              "color": "#7aa2ff",
+              "card": "clean",
+              "w": 230,
+              "h": 132,
+              "updateSeconds": 60,
+              "view": [
+                {
+                  "type": "caption",
+                  "text": "Widget Demo Pack"
+                },
+                {
+                  "type": "big",
+                  "text": "{{time.timeText}} {{time.ampm}}"
+                },
+                {
+                  "type": "text",
+                  "text": "{{store.installedApps}} apps on this device"
+                }
+              ]
+            },
+            {
+              "id": "demo-counter",
+              "name": "Tap Counter",
+              "icon": "fa-solid fa-hand-pointer",
+              "color": "#fb7185",
+              "w": 250,
+              "h": 216,
+              "updateSeconds": 60,
+              "viewUrl": "widgets/counter.html"
+            }
+          ],
+          "screenshots": [],
+          "iconUrl": null,
+          "featureGraphic": null,
+          "dependencies": [],
+          "keywords": [],
+          "targets": [],
+          "features": [],
+          "sizeBytes": 4223,
+          "sha256": "ae3a8d81679ef7e8fac5f4419d0b1bca5ea07e802a2e6ac55a11557fff05a09c",
+          "package": "packages/acoz/widget-demo/1.0.0.ln",
+          "url": "packages/acoz/widget-demo/1.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": 1,
+          "firstPublishedAt": "2026-10-13T22:13:39.015Z",
+          "publishedAt": "2026-10-13T22:13:39.015Z",
+          "versionReleaseDate": "2026-10-13T22:13:39.015Z",
+          "releaseDate": "2026-10-13T22:13:39.015Z",
+          "uploadedAt": "2026-10-13T22:13:39.015Z"
+        }
+      ]
     }
   ],
   "hfBucket": "lunos-official/lun-store",
