@@ -1,8 +1,8 @@
 {
   "format": "LunOS App Repository",
-  "version": 1,
+  "version": 2,
   "repositoryId": "lunos-official-apps",
-  "name": "LunOS Official App Repository",
+  "name": "Lun Store Official Repository",
   "publisher": "LunOS-Official",
   "purpose": "Official catalog and package repository for applications distributed by the LunOS operating system.",
   "baseUrl": "https://raw.githubusercontent.com/LunOS-Official/lunos-apps/main/",
@@ -140,7 +140,22 @@
           "manifestFormat": "LNPK",
           "manifestVersion": 1
         }
-      ]
+      ],
+      "type": "gui"
     }
+  ],
+  "hfBucket": "lunos-official/lun-store",
+  "hfBaseUrl": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/",
+  "types": [
+    "gui",
+    "cli",
+    "theme",
+    "icon",
+    "font",
+    "wallpaper",
+    "live-wallpaper",
+    "cursor",
+    "widget",
+    "sound"
   ]
 }
