@@ -142,6 +142,34 @@
         }
       ],
       "type": "gui"
+    },
+    {
+      "id": "pro-hacker-aura",
+      "type": "theme",
+      "name": "Pro Hacker Aura",
+      "version": "1.0.0",
+      "category": "themes",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Original neon hacker-glass theme for LunOS: floating dock, terminal launcher, animated windows and full-system dark glass.",
+      "shortDescription": "Neon hacker glass theme with floating dock and animated windows.",
+      "sha256": "2711d8adad99cb7f88a6ba5dc0d8ee079179504ea1fa16b6b148029562f22d2c",
+      "sizeBytes": 169151,
+      "downloadUrl": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/Pro-Hacker-Aura-Pack%20(3).zip",
+      "keywords": [
+        "theme",
+        "hacker",
+        "neon",
+        "dark",
+        "glass"
+      ]
     }
   ],
   "hfBucket": "lunos-official/lun-store",
