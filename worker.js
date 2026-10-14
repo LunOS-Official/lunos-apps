@@ -35,18 +35,20 @@ async function upload(req,env){
  await recordDeveloper(u,env);if(!env.GITHUB_TOKEN)return J({error:"Publisher service is not configured"},500,env,req);
  let f;try{f=await req.formData()}catch{return J({error:"Could not read upload"},400,env,req)}
  const file=f.get("package"),raw=f.get("manifest"),submitted=f.get("sha256");
- if(!(file instanceof File)||!file.name.toLowerCase().endsWith(".ln"))return J({error:"A .ln package is required"},400,env,req);
+ const kind=safeText(f.get("kind")||"");const PACK_KINDS={theme:".zip",wallpaper:".zip",icon:".zip",font:".zip",cursor:".zip",sound:".zip"};
+ if(!(file instanceof File))return J({error:"A package file is required"},400,env,req);
+ if(kind?(!PACK_KINDS[kind]||!file.name.toLowerCase().endsWith(PACK_KINDS[kind])):!file.name.toLowerCase().endsWith(".ln"))return J({error:kind?"A .zip pack is required for this listing type":"A .ln package is required"},400,env,req);
  if(file.size<=0||file.size>MAX)return J({error:"Invalid package size",maxBytes:MAX},413,env,req);
  let m;try{m=JSON.parse(raw||"")}catch{return J({error:"Invalid manifest JSON"},400,env,req)}
- if(m.format!=="LNPK"||!id(m.id)||!ver(m.appVersion)||!m.name||!m.license?.id)return J({error:"Invalid manifest: format, id, appVersion, name and license.id are required"},400,env,req);
+ if(kind?(!id(m.id)||!ver(m.appVersion)||!m.name):(m.format!=="LNPK"||!id(m.id)||!ver(m.appVersion)||!m.name||!m.license?.id))return J({error:kind?"Invalid pack manifest: id, appVersion and name are required":"Invalid manifest: format, id, appVersion, name and license.id are required"},400,env,req);
  try{
   const bytes=await file.arrayBuffer(),sha=hex(await crypto.subtle.digest("SHA-256",bytes)),now=new Date().toISOString();
   if(submitted&&submitted.toLowerCase()!==sha)return J({error:"SHA-256 mismatch"},400,env,req);
   const {base,cf,cat}=await getCatalog(env);if(!Array.isArray(cat.packages))cat.packages=[];
   const canonicalizePackage=x=>{if(x&&typeof x.package==="string"&&x.package.startsWith("lunos-apps/"))x.package=x.package.slice(10);if(Array.isArray(x?.versions))x.versions.forEach(canonicalizePackage);return x};
   cat.packages.forEach(canonicalizePackage);
-  const dev=developerId(u,env),folder=`packages/${dev}/${m.id}`,path=`${folder}/${m.appVersion}.ln`,catalogPackage=path,owner=cat.packages.find(x=>x.id===m.id);
-  if(owner&&owner.publisher?.id&&owner.publisher.id!==dev)return J({error:"App ID belongs to another developer",owner:owner.publisher.id},403,env,req);
+  const dev=developerId(u,env),_devsOf=x=>{const s=new Set();const push=v=>{v=String(v||"").toLowerCase().replace(/^packages\//,"").replace(/^packs\//,"").split("/")[0];if(v&&v!=="packages"&&v!=="packs")s.add(v)};if(x){push(x.publisher?.id);push(x.package);if(Array.isArray(x.versions))x.versions.forEach(v=>{push(v.publisher?.id);push(v.package||v.url)})}return s},_isOwn=x=>{const s=_devsOf(x);return s.has("lunos-official")||s.has(String(dev).toLowerCase())},folder=kind?`packs/${dev}/${m.id}`:`packages/${dev}/${m.id}`,path=`${folder}/${m.appVersion}${kind?".zip":".ln"}`,catalogPackage=path,owner=cat.packages.find(x=>x.id===m.id);
+  if(owner&&owner.publisher?.id&&!_isOwn(owner))return J({error:"App ID belongs to another developer",owner:owner.publisher.id},403,env,req);
   if(owner&&versionsOf(owner).some(x=>String(x.version||x.appVersion)===String(m.appVersion)))return J({error:"This app version already exists"},409,env,req);
   const ref=await gh(env.GITHUB_TOKEN,`/repos/${O}/${R}/git/ref/heads/${base}`),branch=`lunos-publish/${dev}-${m.id}-${Date.now()}`;
   await gh(env.GITHUB_TOKEN,`/repos/${O}/${R}/git/refs`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ref:`refs/heads/${branch}`,sha:ref.object.sha})});
@@ -54,14 +56,14 @@ async function upload(req,env){
   const existingVersions=owner?versionsOf(owner):[],firstPublishedAt=existingVersions.find(x=>x.firstPublishedAt)?.firstPublishedAt||existingVersions[0]?.publishedAt||now;
   const entry={
    ...m,id:m.id,name:m.name,version:m.appVersion,appVersion:m.appVersion,
-   publisher:{id:dev,name:u.name,email:u.email},license:m.license,
+   type:kind||m.type||undefined,publisher:{id:dev,name:u.name,email:u.email},license:m.license||{id:"unspecified",name:"See package"},
    sourceVisibility:m.sourceVisibility||"private-source",description:m.description||"",
    screenshots:Array.isArray(m.screenshots)?m.screenshots:[],iconUrl:m.iconUrl||null,
    featureGraphic:m.featureGraphic||null,permissions:Array.isArray(m.permissions)?m.permissions:[],
    dependencies:Array.isArray(m.dependencies)?m.dependencies:[],keywords:Array.isArray(m.keywords)?m.keywords:[],
    targets:Array.isArray(m.targets)?m.targets:[],features:Array.isArray(m.features)?m.features:[],
    sizeBytes:file.size,sha256:sha,package:catalogPackage,url:catalogPackage,
-   manifestFormat:m.format,manifestVersion:m.version,
+   manifestFormat:m.format,manifestVersion:kind??m.version,
    firstPublishedAt, publishedAt:now, versionReleaseDate:m.releaseDate||m.versionReleaseDate||now,
    releaseDate:m.releaseDate||now,uploadedAt:now
   };
