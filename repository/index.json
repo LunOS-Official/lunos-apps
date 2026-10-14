@@ -9,6 +9,174 @@
   "packageFormat": "LNPK",
   "packages": [
     {
+      "id": "beam-http",
+      "name": "Beam HTTP",
+      "version": "1.0.0",
+      "category": "network",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Beam makes an HTTP request from the Terminal and shows status, timing, headers and body. Options: -X METHOD, -d text, -H \"Name: Value\", -i headers, -o file to save the body, -s body only. JSON responses are pretty-printed. Usage: beam <url> [options]",
+      "shortDescription": "HTTP requests from Terminal: status, headers, body, save to file.",
+      "permissions": [
+        "network"
+      ],
+      "sizeBytes": 2197,
+      "sha256": "0175817296217770af6979bc31b7c7845ad65fede785acfe52c1c892f7bbb7f5",
+      "package": "packages/BeamHTTP-1.0.0.ln",
+      "url": "packages/BeamHTTP-1.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": 1,
+      "versions": [
+        {
+          "id": "beam-http",
+          "name": "Beam HTTP",
+          "version": "1.0.0",
+          "category": "network",
+          "publisher": {
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Beam makes an HTTP request from the Terminal and shows status, timing, headers and body. Options: -X METHOD, -d text, -H \"Name: Value\", -i headers, -o file to save the body, -s body only. JSON responses are pretty-printed. Usage: beam <url> [options]",
+          "shortDescription": "HTTP requests from Terminal: status, headers, body, save to file.",
+          "permissions": [
+            "network"
+          ],
+          "sizeBytes": 2197,
+          "sha256": "0175817296217770af6979bc31b7c7845ad65fede785acfe52c1c892f7bbb7f5",
+          "package": "packages/BeamHTTP-1.0.0.ln",
+          "url": "packages/BeamHTTP-1.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": 1
+        }
+      ]
+    },
+    {
+      "id": "bytes-view",
+      "name": "Bytes View",
+      "version": "1.0.0",
+      "category": "development",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Bytes shows the raw bytes of any file as a hex + text dump with offsets (16 bytes per row). Usage: bytes <file> [max-bytes, default 512, max 8192]",
+      "shortDescription": "Hex + text dump of any file, right in the Terminal.",
+      "permissions": [
+        "filesystem"
+      ],
+      "sizeBytes": 1929,
+      "sha256": "f415c0196e67696458b1aa5aa135604c7a42a929e0427d38913e39e4a5f42df3",
+      "package": "packages/BytesView-1.0.0.ln",
+      "url": "packages/BytesView-1.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": 1,
+      "versions": [
+        {
+          "id": "bytes-view",
+          "name": "Bytes View",
+          "version": "1.0.0",
+          "category": "development",
+          "publisher": {
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Bytes shows the raw bytes of any file as a hex + text dump with offsets (16 bytes per row). Usage: bytes <file> [max-bytes, default 512, max 8192]",
+          "shortDescription": "Hex + text dump of any file, right in the Terminal.",
+          "permissions": [
+            "filesystem"
+          ],
+          "sizeBytes": 1929,
+          "sha256": "f415c0196e67696458b1aa5aa135604c7a42a929e0427d38913e39e4a5f42df3",
+          "package": "packages/BytesView-1.0.0.ln",
+          "url": "packages/BytesView-1.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": 1
+        }
+      ]
+    },
+    {
+      "id": "delta-compare",
+      "name": "Delta Compare",
+      "version": "1.0.0",
+      "category": "development",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Delta compares two text files line by line and shows what changed: lines marked - exist only in the first file, + only in the second, with a short summary. Exit code 1 when files differ, 0 when identical. Usage: delta <file-a> <file-b>",
+      "shortDescription": "Line-by-line file comparison with +/- change markers.",
+      "permissions": [
+        "filesystem"
+      ],
+      "sizeBytes": 2181,
+      "sha256": "fbfe1ada36075fc3bf03237141b8b42a30f11e86413212abe3e275267be7d447",
+      "package": "packages/DeltaCompare-1.0.0.ln",
+      "url": "packages/DeltaCompare-1.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": 1,
+      "versions": [
+        {
+          "id": "delta-compare",
+          "name": "Delta Compare",
+          "version": "1.0.0",
+          "category": "development",
+          "publisher": {
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Delta compares two text files line by line and shows what changed: lines marked - exist only in the first file, + only in the second, with a short summary. Exit code 1 when files differ, 0 when identical. Usage: delta <file-a> <file-b>",
+          "shortDescription": "Line-by-line file comparison with +/- change markers.",
+          "permissions": [
+            "filesystem"
+          ],
+          "sizeBytes": 2181,
+          "sha256": "fbfe1ada36075fc3bf03237141b8b42a30f11e86413212abe3e275267be7d447",
+          "package": "packages/DeltaCompare-1.0.0.ln",
+          "url": "packages/DeltaCompare-1.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": 1
+        }
+      ]
+    },
+    {
       "id": "hello-test",
       "name": "Hello Test",
       "version": "5.0.0",
@@ -255,6 +423,56 @@
       ]
     },
     {
+      "id": "pulse-monitor",
+      "name": "Pulse Monitor",
+      "version": "1.0.0",
+      "category": "system",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Pulse prints a one-shot LunOS system snapshot in the Terminal: browser/platform, session uptime, open app windows, kernel processes (when exposed), JS heap memory, storage estimate, battery and network status. Usage: pulse",
+      "shortDescription": "System snapshot: windows, processes, memory, storage, battery, network.",
+      "sizeBytes": 2594,
+      "sha256": "d4c01683bcbac124c6847ce8402ef0141a274ddb4762c599e2e53e8bf66d9dc3",
+      "package": "packages/PulseMonitor-1.0.0.ln",
+      "url": "packages/PulseMonitor-1.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": 1,
+      "versions": [
+        {
+          "id": "pulse-monitor",
+          "name": "Pulse Monitor",
+          "version": "1.0.0",
+          "category": "system",
+          "publisher": {
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Pulse prints a one-shot LunOS system snapshot in the Terminal: browser/platform, session uptime, open app windows, kernel processes (when exposed), JS heap memory, storage estimate, battery and network status. Usage: pulse",
+          "shortDescription": "System snapshot: windows, processes, memory, storage, battery, network.",
+          "sizeBytes": 2594,
+          "sha256": "d4c01683bcbac124c6847ce8402ef0141a274ddb4762c599e2e53e8bf66d9dc3",
+          "package": "packages/PulseMonitor-1.0.0.ln",
+          "url": "packages/PulseMonitor-1.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": 1
+        }
+      ]
+    },
+    {
       "id": "python-test",
       "name": "Python Runtime Test",
       "version": "1.0.1",
@@ -332,6 +550,118 @@
           "sha256": "09ca2619d8f0031dc677dc4d49edda4c7df77d6b407ae61a28d44ec9c9b0042f",
           "package": "packages/acoz/python-test/1.0.0.ln",
           "url": "packages/acoz/python-test/1.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": 1
+        }
+      ]
+    },
+    {
+      "id": "seal-codec",
+      "name": "Seal Codec",
+      "version": "1.0.0",
+      "category": "utility",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Seal encodes text to Base64 and decodes it back (Unicode-safe). Usage: seal <text...>, seal -f <file>, seal -d <base64>, seal -df <file>, add -o <file> to write the result to a file.",
+      "shortDescription": "Base64 encode/decode for text and files, Unicode-safe.",
+      "permissions": [
+        "filesystem"
+      ],
+      "sizeBytes": 1787,
+      "sha256": "15c54cc6278fd38ed076dc5496518f98bf2ed31f7146a550cbd3d08dbea5bde1",
+      "package": "packages/SealCodec-1.0.0.ln",
+      "url": "packages/SealCodec-1.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": 1,
+      "versions": [
+        {
+          "id": "seal-codec",
+          "name": "Seal Codec",
+          "version": "1.0.0",
+          "category": "utility",
+          "publisher": {
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Seal encodes text to Base64 and decodes it back (Unicode-safe). Usage: seal <text...>, seal -f <file>, seal -d <base64>, seal -df <file>, add -o <file> to write the result to a file.",
+          "shortDescription": "Base64 encode/decode for text and files, Unicode-safe.",
+          "permissions": [
+            "filesystem"
+          ],
+          "sizeBytes": 1787,
+          "sha256": "15c54cc6278fd38ed076dc5496518f98bf2ed31f7146a550cbd3d08dbea5bde1",
+          "package": "packages/SealCodec-1.0.0.ln",
+          "url": "packages/SealCodec-1.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": 1
+        }
+      ]
+    },
+    {
+      "id": "sift-json",
+      "name": "Sift JSON",
+      "version": "1.0.0",
+      "category": "development",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Sift reads a JSON file and prints the whole document pretty-printed, or one value selected by a dot path with array indexes. Usage: sift <file.json> [a.b.0.path]",
+      "shortDescription": "Query values inside JSON files with a simple dot path.",
+      "permissions": [
+        "filesystem"
+      ],
+      "sizeBytes": 1783,
+      "sha256": "7139c7676aa338efaec0fe7d6eca9743ea0835f556fc1b59459d36defac353f3",
+      "package": "packages/SiftJSON-1.0.0.ln",
+      "url": "packages/SiftJSON-1.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": 1,
+      "versions": [
+        {
+          "id": "sift-json",
+          "name": "Sift JSON",
+          "version": "1.0.0",
+          "category": "development",
+          "publisher": {
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Sift reads a JSON file and prints the whole document pretty-printed, or one value selected by a dot path with array indexes. Usage: sift <file.json> [a.b.0.path]",
+          "shortDescription": "Query values inside JSON files with a simple dot path.",
+          "permissions": [
+            "filesystem"
+          ],
+          "sizeBytes": 1783,
+          "sha256": "7139c7676aa338efaec0fe7d6eca9743ea0835f556fc1b59459d36defac353f3",
+          "package": "packages/SiftJSON-1.0.0.ln",
+          "url": "packages/SiftJSON-1.0.0.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1
         }
