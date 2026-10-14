@@ -199,13 +199,50 @@
       ]
     },
     {
+      "format": "LNPK",
+      "version": "1.0.1",
       "id": "python-test",
       "name": "Python Runtime Test",
-      "version": "1.0.0",
+      "appVersion": "1.0.1",
+      "type": "gui",
       "category": "development",
+      "compression": "store",
+      "blockMode": "entry",
+      "files": [
+        {
+          "path": "app/index.html",
+          "type": "html"
+        },
+        {
+          "path": "app/main.py",
+          "type": "text"
+        },
+        {
+          "path": "README.txt",
+          "type": "text"
+        }
+      ],
+      "launch": {
+        "kind": "html",
+        "entry": "app/index.html",
+        "title": "Python Runtime Test",
+        "icon": "fa-brands fa-python",
+        "color": "#3776ab",
+        "width": 560,
+        "height": 480
+      },
+      "runtimeDependencies": [
+        "python"
+      ],
+      "permissions": [
+        "terminal"
+      ],
+      "description": "Test app that requires the Python runtime: installing it triggers the runtime-requirement prompt (~11 MB Python download). The bundled app/main.py prints 'Python OK on LunOS' and a sum-of-squares check when run with python3.",
+      "shortDescription": "Requires the Python runtime; runs a bundled .py script.",
       "publisher": {
-        "id": "LunOS-Official",
-        "name": "LunOS Official"
+        "id": "acoz",
+        "name": "Acoz",
+        "email": "acoz@lunos"
       },
       "license": {
         "id": "MIT",
@@ -213,17 +250,24 @@
         "url": "https://opensource.org/license/mit/"
       },
       "sourceVisibility": "open-source",
-      "description": "Test app that requires the Python runtime: installing it triggers the runtime-requirement prompt (~11 MB Python download). The bundled app/main.py prints 'Python OK on LunOS' and a sum-of-squares check when run with python3.",
-      "shortDescription": "Requires the Python runtime; runs a bundled .py script.",
-      "permissions": [
-        "terminal"
-      ],
-      "sizeBytes": 4383,
-      "sha256": "09ca2619d8f0031dc677dc4d49edda4c7df77d6b407ae61a28d44ec9c9b0042f",
-      "package": "packages/acoz/python-test/1.0.0.ln",
-      "url": "packages/acoz/python-test/1.0.0.ln",
+      "screenshots": [],
+      "iconUrl": null,
+      "featureGraphic": null,
+      "dependencies": [],
+      "keywords": [],
+      "targets": [],
+      "features": [],
+      "sizeBytes": 4623,
+      "sha256": "8bd0a044f128d9ceebb267e12165d875912458e21070bcb2e2e7c6b9bf0b7e8a",
+      "package": "packages/acoz/python-test/1.0.1.ln",
+      "url": "packages/acoz/python-test/1.0.1.ln",
       "manifestFormat": "LNPK",
-      "manifestVersion": 1,
+      "manifestVersion": "",
+      "firstPublishedAt": "2026-10-14T02:31:08.364Z",
+      "publishedAt": "2026-10-14T02:31:08.364Z",
+      "versionReleaseDate": "2026-10-14T02:31:08.364Z",
+      "releaseDate": "2026-10-14T02:31:08.364Z",
+      "uploadedAt": "2026-10-14T02:31:08.364Z",
       "versions": [
         {
           "id": "python-test",
@@ -251,6 +295,77 @@
           "url": "packages/acoz/python-test/1.0.0.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1
+        },
+        {
+          "format": "LNPK",
+          "version": "1.0.1",
+          "id": "python-test",
+          "name": "Python Runtime Test",
+          "appVersion": "1.0.1",
+          "type": "gui",
+          "category": "development",
+          "compression": "store",
+          "blockMode": "entry",
+          "files": [
+            {
+              "path": "app/index.html",
+              "type": "html"
+            },
+            {
+              "path": "app/main.py",
+              "type": "text"
+            },
+            {
+              "path": "README.txt",
+              "type": "text"
+            }
+          ],
+          "launch": {
+            "kind": "html",
+            "entry": "app/index.html",
+            "title": "Python Runtime Test",
+            "icon": "fa-brands fa-python",
+            "color": "#3776ab",
+            "width": 560,
+            "height": 480
+          },
+          "runtimeDependencies": [
+            "python"
+          ],
+          "permissions": [
+            "terminal"
+          ],
+          "description": "Test app that requires the Python runtime: installing it triggers the runtime-requirement prompt (~11 MB Python download). The bundled app/main.py prints 'Python OK on LunOS' and a sum-of-squares check when run with python3.",
+          "shortDescription": "Requires the Python runtime; runs a bundled .py script.",
+          "publisher": {
+            "id": "acoz",
+            "name": "Acoz",
+            "email": "acoz@lunos"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "screenshots": [],
+          "iconUrl": null,
+          "featureGraphic": null,
+          "dependencies": [],
+          "keywords": [],
+          "targets": [],
+          "features": [],
+          "sizeBytes": 4623,
+          "sha256": "8bd0a044f128d9ceebb267e12165d875912458e21070bcb2e2e7c6b9bf0b7e8a",
+          "package": "packages/acoz/python-test/1.0.1.ln",
+          "url": "packages/acoz/python-test/1.0.1.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": "",
+          "firstPublishedAt": "2026-10-14T02:31:08.364Z",
+          "publishedAt": "2026-10-14T02:31:08.364Z",
+          "versionReleaseDate": "2026-10-14T02:31:08.364Z",
+          "releaseDate": "2026-10-14T02:31:08.364Z",
+          "uploadedAt": "2026-10-14T02:31:08.364Z"
         }
       ]
     },
