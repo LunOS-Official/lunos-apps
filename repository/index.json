@@ -143,6 +143,130 @@
       ]
     },
     {
+      "format": "LNPK",
+      "version": "1.0.0",
+      "id": "knock-probe",
+      "name": "Knock Probe",
+      "appVersion": "1.0.0",
+      "type": "cli",
+      "category": "network",
+      "compression": "store",
+      "blockMode": "entry",
+      "files": [
+        {
+          "path": "cli/knock.js",
+          "type": "js"
+        },
+        {
+          "path": "README.txt",
+          "type": "text"
+        }
+      ],
+      "cli": [
+        {
+          "name": "knock",
+          "script": "cli/knock.js"
+        }
+      ],
+      "permissions": [
+        "network"
+      ],
+      "description": "Knock probes a host or URL a few times and reports reply latency (min/avg/max), like a reachability check. Usage: knock <host-or-url> [count 1-10]. Honors the OS network gate (airplane mode makes hosts unreachable).",
+      "shortDescription": "Host reachability + latency probe with min/avg/max timings.",
+      "publisher": {
+        "id": "acoz",
+        "name": "Acoz",
+        "email": "acoz@lunos"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "screenshots": [],
+      "iconUrl": null,
+      "featureGraphic": null,
+      "dependencies": [],
+      "keywords": [],
+      "targets": [],
+      "features": [],
+      "sizeBytes": 1976,
+      "sha256": "aaea7360ed6199d6d860366a9ac385422c6c2b2fea5da8ebdda73f593c69ee0a",
+      "package": "packages/acoz/knock-probe/1.0.0.ln",
+      "url": "packages/acoz/knock-probe/1.0.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": "",
+      "firstPublishedAt": "2026-10-14T21:28:32.709Z",
+      "publishedAt": "2026-10-14T21:28:32.709Z",
+      "versionReleaseDate": "2026-10-14T21:28:32.709Z",
+      "releaseDate": "2026-10-14T21:28:32.709Z",
+      "uploadedAt": "2026-10-14T21:28:32.709Z",
+      "versions": [
+        {
+          "format": "LNPK",
+          "version": "1.0.0",
+          "id": "knock-probe",
+          "name": "Knock Probe",
+          "appVersion": "1.0.0",
+          "type": "cli",
+          "category": "network",
+          "compression": "store",
+          "blockMode": "entry",
+          "files": [
+            {
+              "path": "cli/knock.js",
+              "type": "js"
+            },
+            {
+              "path": "README.txt",
+              "type": "text"
+            }
+          ],
+          "cli": [
+            {
+              "name": "knock",
+              "script": "cli/knock.js"
+            }
+          ],
+          "permissions": [
+            "network"
+          ],
+          "description": "Knock probes a host or URL a few times and reports reply latency (min/avg/max), like a reachability check. Usage: knock <host-or-url> [count 1-10]. Honors the OS network gate (airplane mode makes hosts unreachable).",
+          "shortDescription": "Host reachability + latency probe with min/avg/max timings.",
+          "publisher": {
+            "id": "acoz",
+            "name": "Acoz",
+            "email": "acoz@lunos"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "screenshots": [],
+          "iconUrl": null,
+          "featureGraphic": null,
+          "dependencies": [],
+          "keywords": [],
+          "targets": [],
+          "features": [],
+          "sizeBytes": 1976,
+          "sha256": "aaea7360ed6199d6d860366a9ac385422c6c2b2fea5da8ebdda73f593c69ee0a",
+          "package": "packages/acoz/knock-probe/1.0.0.ln",
+          "url": "packages/acoz/knock-probe/1.0.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": "",
+          "firstPublishedAt": "2026-10-14T21:28:32.709Z",
+          "publishedAt": "2026-10-14T21:28:32.709Z",
+          "versionReleaseDate": "2026-10-14T21:28:32.709Z",
+          "releaseDate": "2026-10-14T21:28:32.709Z",
+          "uploadedAt": "2026-10-14T21:28:32.709Z"
+        }
+      ]
+    },
+    {
       "id": "nano-editor",
       "name": "Nano Editor (CLI Test)",
       "version": "1.0.0",
