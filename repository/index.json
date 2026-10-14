@@ -143,40 +143,13 @@
       ]
     },
     {
-      "format": "LNPK",
-      "version": "1.0.0",
       "id": "nano-editor",
       "name": "Nano Editor (CLI Test)",
-      "appVersion": "1.0.0",
-      "type": "cli",
+      "version": "1.0.0",
       "category": "development",
-      "compression": "store",
-      "blockMode": "entry",
-      "files": [
-        {
-          "path": "cli/edit.js",
-          "type": "js"
-        },
-        {
-          "path": "README.txt",
-          "type": "text"
-        }
-      ],
-      "cli": [
-        {
-          "name": "edit",
-          "script": "cli/edit.js"
-        }
-      ],
-      "permissions": [
-        "filesystem"
-      ],
-      "description": "Test CLI package: installs an 'edit' command into the LunOS Terminal - a small nano-like editor (open/create, type, Ctrl+O save, Ctrl+X exit). Proves that .ln packages can register terminal commands and that uninstall removes them.",
-      "shortDescription": "Adds the 'edit' nano-like editor command to the Terminal.",
       "publisher": {
-        "id": "acoz",
-        "name": "Acoz",
-        "email": "acoz@lunos"
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
       },
       "license": {
         "id": "MIT",
@@ -184,60 +157,26 @@
         "url": "https://opensource.org/license/mit/"
       },
       "sourceVisibility": "open-source",
-      "screenshots": [],
-      "iconUrl": null,
-      "featureGraphic": null,
-      "dependencies": [],
-      "keywords": [],
-      "targets": [],
-      "features": [],
+      "description": "Test CLI package: installs an 'edit' command into the LunOS Terminal - a small nano-like editor (open/create, type, Ctrl+O save, Ctrl+X exit). Proves that .ln packages can register terminal commands and that uninstall removes them.",
+      "shortDescription": "Adds the 'edit' nano-like editor command to the Terminal.",
+      "permissions": [
+        "filesystem"
+      ],
       "sizeBytes": 8574,
       "sha256": "bbf9d6b3f4f7d2a30e307586de21152dec49be83197d42d674cabc1325ff8c57",
       "package": "packages/acoz/nano-editor/1.0.0.ln",
       "url": "packages/acoz/nano-editor/1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
-      "firstPublishedAt": "2026-10-14T01:06:47.074Z",
-      "publishedAt": "2026-10-14T01:06:47.074Z",
-      "versionReleaseDate": "2026-10-14T01:06:47.074Z",
-      "releaseDate": "2026-10-14T01:06:47.074Z",
-      "uploadedAt": "2026-10-14T01:06:47.074Z",
       "versions": [
         {
-          "format": "LNPK",
-          "version": "1.0.0",
           "id": "nano-editor",
           "name": "Nano Editor (CLI Test)",
-          "appVersion": "1.0.0",
-          "type": "cli",
+          "version": "1.0.0",
           "category": "development",
-          "compression": "store",
-          "blockMode": "entry",
-          "files": [
-            {
-              "path": "cli/edit.js",
-              "type": "js"
-            },
-            {
-              "path": "README.txt",
-              "type": "text"
-            }
-          ],
-          "cli": [
-            {
-              "name": "edit",
-              "script": "cli/edit.js"
-            }
-          ],
-          "permissions": [
-            "filesystem"
-          ],
-          "description": "Test CLI package: installs an 'edit' command into the LunOS Terminal - a small nano-like editor (open/create, type, Ctrl+O save, Ctrl+X exit). Proves that .ln packages can register terminal commands and that uninstall removes them.",
-          "shortDescription": "Adds the 'edit' nano-like editor command to the Terminal.",
           "publisher": {
-            "id": "acoz",
-            "name": "Acoz",
-            "email": "acoz@lunos"
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
           },
           "license": {
             "id": "MIT",
@@ -245,24 +184,17 @@
             "url": "https://opensource.org/license/mit/"
           },
           "sourceVisibility": "open-source",
-          "screenshots": [],
-          "iconUrl": null,
-          "featureGraphic": null,
-          "dependencies": [],
-          "keywords": [],
-          "targets": [],
-          "features": [],
+          "description": "Test CLI package: installs an 'edit' command into the LunOS Terminal - a small nano-like editor (open/create, type, Ctrl+O save, Ctrl+X exit). Proves that .ln packages can register terminal commands and that uninstall removes them.",
+          "shortDescription": "Adds the 'edit' nano-like editor command to the Terminal.",
+          "permissions": [
+            "filesystem"
+          ],
           "sizeBytes": 8574,
           "sha256": "bbf9d6b3f4f7d2a30e307586de21152dec49be83197d42d674cabc1325ff8c57",
           "package": "packages/acoz/nano-editor/1.0.0.ln",
           "url": "packages/acoz/nano-editor/1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1,
-          "firstPublishedAt": "2026-10-14T01:06:47.074Z",
-          "publishedAt": "2026-10-14T01:06:47.074Z",
-          "versionReleaseDate": "2026-10-14T01:06:47.074Z",
-          "releaseDate": "2026-10-14T01:06:47.074Z",
-          "uploadedAt": "2026-10-14T01:06:47.074Z"
+          "manifestVersion": 1
         }
       ]
     },
