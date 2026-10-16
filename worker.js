@@ -145,10 +145,60 @@ async function storeApi(req,env,u){
  return null;
 }
 
+/* LunMesh verified number registry (Supabase mesh_numbers).
+   The number is NOT chosen by the client: the Worker re-derives it from
+   the signed-in LunID and rejects any mismatch. Registration also needs
+   an ECDSA signature from the device key that owns the number
+   (proof-of-possession), so a stolen session alone cannot move a number. */
+async function meshNumberFor(lunid){const d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("lunos-mesh:number:"+String(lunid||"").trim().toLowerCase()));const b=new Uint8Array(d);let out=String(6+(b[0]%4));for(let i=1;i<10;i++)out+=String(b[i]%10);return out}
+const meshB64Bytes=s=>{const x=atob(String(s||""));const o=new Uint8Array(x.length);for(let i=0;i<x.length;i++)o[i]=x.charCodeAt(i);return o};
+async function meshNumberRegister(req,env){
+ try{
+  const p=await needUser(req,env);
+  const b=await req.json().catch(()=>({}));
+  const number=String(b.number||"");
+  const lunid=String(b.lunid||"").trim().toLowerCase();
+  if(!/^\d{10}$/.test(number))return J({error:"Invalid Lun Number"},400,env,req);
+  if(!p.lunid||lunid!==String(p.lunid).trim().toLowerCase())return J({error:"This number belongs to a different LunID than the signed-in account"},403,env,req);
+  const expected=await meshNumberFor(p.lunid);
+  if(number!==expected)return J({error:"Number does not belong to this LunID"},400,env,req);
+  const pub=b.pubJwk||b.publicKey;
+  if(!pub||pub.kty!=="EC"||pub.crv!=="P-256"||!pub.x||!pub.y)return J({error:"A P-256 device public key is required"},400,env,req);
+  let ok=false;
+  try{const key=await crypto.subtle.importKey("jwk",{kty:"EC",crv:"P-256",x:pub.x,y:pub.y,ext:true},{name:"ECDSA",namedCurve:"P-256"},true,["verify"]);ok=await crypto.subtle.verify({name:"ECDSA",hash:"SHA-256"},key,meshB64Bytes(b.sig),new TextEncoder().encode("lunos-mesh-register:v1:"+number+":"+lunid))}catch{ok=false}
+  if(!ok)return J({error:"Device signature check failed"},403,env,req);
+  await sb(env,"mesh_numbers",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify({number,lunid:p.lunid,public_key:pub,updated_at:new Date().toISOString()})});
+  return J({ok:true,number,lunid:p.lunid,verified:true},200,env,req);
+ }catch(e){return J({error:e.message||"Registry failed"},e.status||500,env,req)}
+}
+async function meshNumberLookup(req,env,u){
+ const number=decodeURIComponent(u.pathname.slice("/api/mesh/number/".length));
+ if(!/^\d{10}$/.test(number))return J({error:"Invalid Lun Number"},400,env,req);
+ try{
+  const rows=await sb(env,`mesh_numbers?number=eq.${encodeURIComponent(number)}&select=number,lunid,public_key,updated_at`);
+  const row=rows&&rows[0];
+  if(!row)return J({error:"Number not registered"},404,env,req);
+  return J({number:row.number,lunid:row.lunid,public_key:row.public_key,updated_at:row.updated_at},200,env,req);
+ }catch(e){return J({error:e.message||"Lookup failed"},502,env,req)}
+}
+
+/* Vault access for logged-in users: the Worker hands the device the
+   platform bucket's S3 credentials AFTER LunID sign-in, so users never
+   create tokens or paste keys. All vault objects are encrypted on the
+   device (key from the user's LunID credentials), so the bucket itself
+   only ever holds garbage; per-user credential vending is the scale step. */
+async function meshVaultAccess(req,env){
+ try{
+  await needUser(req,env);
+  if(!env.HF_VAULT_NS||!env.HF_VAULT_BUCKET||!env.HF_VAULT_KEY_ID||!env.HF_VAULT_SECRET)return J({error:"Vault is not configured on the server yet"},503,env,req);
+  return J({ns:env.HF_VAULT_NS,bucket:env.HF_VAULT_BUCKET,keyId:env.HF_VAULT_KEY_ID,secret:env.HF_VAULT_SECRET},200,env,req);
+ }catch(e){return J({error:e.message||"Vault access failed"},e.status||500,env,req)}
+}
+
 export default{async fetch(req,env){
  const u=new URL(req.url);
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:C(env,req)});
- if(req.method==="GET"&&u.pathname==="/")return J({service:"LunOS Publisher",purpose:"Official server-side developer authentication and LNPK package publishing service for the LunOS App Repository",status:"online",version:"0.18.0",repository:`https://github.com/${O}/${R}`,auth:"Google",upload:"/api/upload",catalog:"/api/catalog",search:"/api/search",developerApps:"/api/developer",download:"/api/download",reviews:"/api/reviews"},200,env,req);
+ if(req.method==="GET"&&u.pathname==="/")return J({service:"LunOS Publisher",purpose:"Official server-side developer authentication and LNPK package publishing service for the LunOS App Repository",status:"online",version:"0.20.0",repository:`https://github.com/${O}/${R}`,auth:"Google",upload:"/api/upload",catalog:"/api/catalog",search:"/api/search",developerApps:"/api/developer",download:"/api/download",reviews:"/api/reviews"},200,env,req);
  if(req.method==="GET"&&u.pathname==="/api/status")try{const r=await gh(env.GITHUB_TOKEN,`/repos/${O}/${R}`),me=await gh(env.GITHUB_TOKEN,"/user");return J({service:"LunOS Publisher",status:"ready",githubConfigured:true,github:{authenticated:true,username:me.login,repositoryAccessible:true,repositoryPermissions:r.permissions},googleConfigured:!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.SESSION_SECRET),reviewsConfigured:!!env.LUNOS_DB},200,env,req)}catch(e){return J({error:e.message},502,env,req);
  }
  if(u.pathname==="/auth/google"&&req.method==="GET")return authStart(req,env);
@@ -161,6 +211,9 @@ export default{async fetch(req,env){
  if(u.pathname==="/api/account/delete"&&req.method==="POST")return accountDelete(req,env);
  if(u.pathname==="/api/account/password"&&req.method==="POST")return passwordChange(req,env);
  if(u.pathname==="/api/auth/lunid/forgot"&&req.method==="POST")return lunidForgot(req,env);
+ if(u.pathname==="/api/mesh/number"&&req.method==="POST")return meshNumberRegister(req,env);
+ if(u.pathname==="/api/mesh/vault-access"&&req.method==="GET")return meshVaultAccess(req,env);
+ if(u.pathname.startsWith("/api/mesh/number/")&&req.method==="GET")return meshNumberLookup(req,env,u);
  if(u.pathname==="/api/upload"&&req.method==="POST")return upload(req,env);
  if((u.pathname==="/api/catalog"||u.pathname==="/api/search"||u.pathname==="/api/developer")&&req.method==="GET")return catalogApi(req,env,u);
  if(u.pathname==="/api/download"&&req.method==="GET")return download(req,env,u);
