@@ -695,6 +695,212 @@
       ]
     },
     {
+      "format": "LNPK",
+      "version": "1.2.0",
+      "id": "org.lunos.developer-api-showcase",
+      "name": "LunOS Developer API Showcase",
+      "appVersion": "1.2.0",
+      "category": "development",
+      "compression": "store",
+      "blockMode": "entry",
+      "entry": "index.html",
+      "description": "Interactive reference for the LunOS Developer API SDK: every API group, practical examples, sandbox-safe checks and permission notes.",
+      "shortDescription": "Interactive reference for the LunOS Developer API SDK: every API group, practical examples, sandbox-safe checks and permission notes.",
+      "publisher": {
+        "id": "acoz",
+        "name": "Acoz",
+        "email": "acoz@lunos"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/"
+      },
+      "sourceVisibility": "open-source",
+      "homepage": null,
+      "repository": null,
+      "supportUrl": null,
+      "privacyPolicy": null,
+      "keywords": [
+        "developer",
+        "api",
+        "sdk",
+        "sandbox",
+        "examples"
+      ],
+      "languages": [
+        "CSS",
+        "HTML",
+        "JavaScript"
+      ],
+      "languageDetection": {
+        "method": "known-file-extension-map",
+        "unrecognizedExtensions": [],
+        "manualLanguages": []
+      },
+      "targets": [
+        "mobile",
+        "tablet",
+        "desktop"
+      ],
+      "permissions": [
+        "filesystem",
+        "storage",
+        "network"
+      ],
+      "dependencies": [],
+      "runtimeDependencies": [],
+      "features": [],
+      "networkRequirements": {
+        "mode": "offline",
+        "firstRun": "none",
+        "reason": ""
+      },
+      "resources": {
+        "estimatedRamMB": 9,
+        "estimateMethod": "manual",
+        "confidence": "user-reported",
+        "capturedAt": null
+      },
+      "sandbox": "worker-assisted-ui",
+      "minApiLevel": 195,
+      "orientation": "auto",
+      "theme": "system",
+      "updateChannel": "stable",
+      "files": [
+        {
+          "path": "index.html",
+          "type": "html"
+        },
+        {
+          "path": "style.css",
+          "type": "css"
+        },
+        {
+          "path": "app.js",
+          "type": "js"
+        }
+      ],
+      "screenshots": [],
+      "iconUrl": null,
+      "featureGraphic": null,
+      "sizeBytes": 17494,
+      "sha256": "a679584092405f4bac08fb26943eb147521337b043e372514e15db1389cf16df",
+      "package": "packages/acoz/org.lunos.developer-api-showcase/1.2.0.ln",
+      "url": "packages/acoz/org.lunos.developer-api-showcase/1.2.0.ln",
+      "manifestFormat": "LNPK",
+      "manifestVersion": "",
+      "firstPublishedAt": "2026-10-24T19:51:19.150Z",
+      "publishedAt": "2026-10-24T19:51:19.150Z",
+      "versionReleaseDate": "2026-10-24T19:51:19.150Z",
+      "releaseDate": "2026-10-24T19:51:19.150Z",
+      "uploadedAt": "2026-10-24T19:51:19.150Z",
+      "versions": [
+        {
+          "format": "LNPK",
+          "version": "1.2.0",
+          "id": "org.lunos.developer-api-showcase",
+          "name": "LunOS Developer API Showcase",
+          "appVersion": "1.2.0",
+          "category": "development",
+          "compression": "store",
+          "blockMode": "entry",
+          "entry": "index.html",
+          "description": "Interactive reference for the LunOS Developer API SDK: every API group, practical examples, sandbox-safe checks and permission notes.",
+          "shortDescription": "Interactive reference for the LunOS Developer API SDK: every API group, practical examples, sandbox-safe checks and permission notes.",
+          "publisher": {
+            "id": "acoz",
+            "name": "Acoz",
+            "email": "acoz@lunos"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License",
+            "url": "https://opensource.org/license/mit/"
+          },
+          "sourceVisibility": "open-source",
+          "homepage": null,
+          "repository": null,
+          "supportUrl": null,
+          "privacyPolicy": null,
+          "keywords": [
+            "developer",
+            "api",
+            "sdk",
+            "sandbox",
+            "examples"
+          ],
+          "languages": [
+            "CSS",
+            "HTML",
+            "JavaScript"
+          ],
+          "languageDetection": {
+            "method": "known-file-extension-map",
+            "unrecognizedExtensions": [],
+            "manualLanguages": []
+          },
+          "targets": [
+            "mobile",
+            "tablet",
+            "desktop"
+          ],
+          "permissions": [
+            "filesystem",
+            "storage",
+            "network"
+          ],
+          "dependencies": [],
+          "runtimeDependencies": [],
+          "features": [],
+          "networkRequirements": {
+            "mode": "offline",
+            "firstRun": "none",
+            "reason": ""
+          },
+          "resources": {
+            "estimatedRamMB": 9,
+            "estimateMethod": "manual",
+            "confidence": "user-reported",
+            "capturedAt": null
+          },
+          "sandbox": "worker-assisted-ui",
+          "minApiLevel": 195,
+          "orientation": "auto",
+          "theme": "system",
+          "updateChannel": "stable",
+          "files": [
+            {
+              "path": "index.html",
+              "type": "html"
+            },
+            {
+              "path": "style.css",
+              "type": "css"
+            },
+            {
+              "path": "app.js",
+              "type": "js"
+            }
+          ],
+          "screenshots": [],
+          "iconUrl": null,
+          "featureGraphic": null,
+          "sizeBytes": 17494,
+          "sha256": "a679584092405f4bac08fb26943eb147521337b043e372514e15db1389cf16df",
+          "package": "packages/acoz/org.lunos.developer-api-showcase/1.2.0.ln",
+          "url": "packages/acoz/org.lunos.developer-api-showcase/1.2.0.ln",
+          "manifestFormat": "LNPK",
+          "manifestVersion": "",
+          "firstPublishedAt": "2026-10-24T19:51:19.150Z",
+          "publishedAt": "2026-10-24T19:51:19.150Z",
+          "versionReleaseDate": "2026-10-24T19:51:19.150Z",
+          "releaseDate": "2026-10-24T19:51:19.150Z",
+          "uploadedAt": "2026-10-24T19:51:19.150Z"
+        }
+      ]
+    },
+    {
       "id": "pulse-monitor",
       "name": "Pulse Monitor",
       "version": "1.0.0",
