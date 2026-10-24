@@ -423,21 +423,13 @@
       ]
     },
     {
-      "format": "LNPK",
-      "version": "1.0.0",
       "id": "org.lunos.demo.zipforge",
       "name": "ZipForge File Archiver Demo",
-      "appVersion": "1.0.0",
+      "version": "1.0.0",
       "category": "utilities",
-      "compression": "store",
-      "blockMode": "entry",
-      "entry": "index.html",
-      "description": "An offline-first ZIP archiver demo built entirely in Lunite. Create Store-method ZIP archives, inspect/extract Store or Deflate entries, verify CRCs and reject unsafe paths. Files stay in the browser.",
-      "shortDescription": "Offline ZIP creation and safe extraction, built in Lunite.",
       "publisher": {
         "id": "acoz",
-        "name": "Acoz",
-        "email": "acoz@lunos"
+        "name": "LunOS Demo Lab"
       },
       "license": {
         "id": "MIT",
@@ -445,10 +437,14 @@
         "url": "https://opensource.org/license/mit/"
       },
       "sourceVisibility": "open-source",
-      "homepage": null,
-      "repository": null,
-      "supportUrl": null,
-      "privacyPolicy": null,
+      "description": "An offline-first ZIP archiver demo built entirely in Lunite. Create Store-method ZIP archives, inspect/extract Store or Deflate entries, verify CRCs and reject unsafe paths. Files stay in the browser.",
+      "shortDescription": "Offline ZIP creation and safe extraction, built in Lunite.",
+      "screenshots": [
+        "store/screenshots/zipforge-create.svg",
+        "store/screenshots/zipforge-extract.svg"
+      ],
+      "iconUrl": "store/icon.svg",
+      "featureGraphic": "store/feature.svg",
       "keywords": [
         "zip",
         "archive",
@@ -458,24 +454,12 @@
         "lunite",
         "demo"
       ],
-      "languages": [
-        "CSS",
-        "HTML",
-        "JavaScript"
-      ],
-      "languageDetection": {
-        "method": "known-file-extension-map",
-        "unrecognizedExtensions": [],
-        "manualLanguages": []
-      },
       "targets": [
         "desktop",
         "tablet",
         "mobile"
       ],
-      "permissions": [],
-      "dependencies": [],
-      "runtimeDependencies": [],
+      "minApiLevel": 195,
       "features": [
         "Create ZIP archives (Store method)",
         "Extract Store and Deflate ZIP entries",
@@ -483,86 +467,23 @@
         "Works offline; no network requests",
         "Local file processing only"
       ],
-      "networkRequirements": {
-        "mode": "offline",
-        "firstRun": "none",
-        "reason": ""
-      },
-      "resources": {
-        "estimatedRamMB": 9,
-        "estimateMethod": "manual",
-        "confidence": "user-reported",
-        "capturedAt": null
-      },
-      "sandbox": "worker-assisted-ui",
-      "minApiLevel": 195,
       "orientation": "auto",
-      "theme": "system",
       "updateChannel": "stable",
-      "files": [
-        {
-          "path": "index.html",
-          "type": "html"
-        },
-        {
-          "path": "style.css",
-          "type": "css"
-        },
-        {
-          "path": "archive-engine.js",
-          "type": "javascript"
-        },
-        {
-          "path": "app.js",
-          "type": "javascript"
-        },
-        {
-          "path": "assets/archiver-hero.svg",
-          "type": "image"
-        },
-        {
-          "path": "docs/ZIPFORGE-NOTES.md",
-          "type": "markdown"
-        },
-        {
-          "path": "docs/LUNITE-TEST-PLAN.md",
-          "type": "markdown"
-        }
-      ],
-      "screenshots": [
-        "store/screenshots/zipforge-create.svg",
-        "store/screenshots/zipforge-extract.svg"
-      ],
-      "iconUrl": "store/icon.svg",
-      "featureGraphic": "store/feature.svg",
       "sizeBytes": 38941,
       "sha256": "8f41238442e1c050567e22ab8f02fafc7dd1443f1bf0e516ce134eadac4f4dbd",
       "package": "packages/acoz/org.lunos.demo.zipforge/1.0.0.ln",
       "url": "packages/acoz/org.lunos.demo.zipforge/1.0.0.ln",
       "manifestFormat": "LNPK",
-      "manifestVersion": "",
-      "firstPublishedAt": "2026-10-24T16:34:27.049Z",
-      "publishedAt": "2026-10-24T16:34:27.049Z",
-      "versionReleaseDate": "2026-10-24T16:34:27.049Z",
-      "releaseDate": "2026-10-24T16:34:27.049Z",
-      "uploadedAt": "2026-10-24T16:34:27.049Z",
+      "manifestVersion": 1,
       "versions": [
         {
-          "format": "LNPK",
-          "version": "1.0.0",
           "id": "org.lunos.demo.zipforge",
           "name": "ZipForge File Archiver Demo",
-          "appVersion": "1.0.0",
+          "version": "1.0.0",
           "category": "utilities",
-          "compression": "store",
-          "blockMode": "entry",
-          "entry": "index.html",
-          "description": "An offline-first ZIP archiver demo built entirely in Lunite. Create Store-method ZIP archives, inspect/extract Store or Deflate entries, verify CRCs and reject unsafe paths. Files stay in the browser.",
-          "shortDescription": "Offline ZIP creation and safe extraction, built in Lunite.",
           "publisher": {
             "id": "acoz",
-            "name": "Acoz",
-            "email": "acoz@lunos"
+            "name": "LunOS Demo Lab"
           },
           "license": {
             "id": "MIT",
@@ -570,10 +491,14 @@
             "url": "https://opensource.org/license/mit/"
           },
           "sourceVisibility": "open-source",
-          "homepage": null,
-          "repository": null,
-          "supportUrl": null,
-          "privacyPolicy": null,
+          "description": "An offline-first ZIP archiver demo built entirely in Lunite. Create Store-method ZIP archives, inspect/extract Store or Deflate entries, verify CRCs and reject unsafe paths. Files stay in the browser.",
+          "shortDescription": "Offline ZIP creation and safe extraction, built in Lunite.",
+          "screenshots": [
+            "store/screenshots/zipforge-create.svg",
+            "store/screenshots/zipforge-extract.svg"
+          ],
+          "iconUrl": "store/icon.svg",
+          "featureGraphic": "store/feature.svg",
           "keywords": [
             "zip",
             "archive",
@@ -583,24 +508,12 @@
             "lunite",
             "demo"
           ],
-          "languages": [
-            "CSS",
-            "HTML",
-            "JavaScript"
-          ],
-          "languageDetection": {
-            "method": "known-file-extension-map",
-            "unrecognizedExtensions": [],
-            "manualLanguages": []
-          },
           "targets": [
             "desktop",
             "tablet",
             "mobile"
           ],
-          "permissions": [],
-          "dependencies": [],
-          "runtimeDependencies": [],
+          "minApiLevel": 195,
           "features": [
             "Create ZIP archives (Store method)",
             "Extract Store and Deflate ZIP entries",
@@ -608,69 +521,14 @@
             "Works offline; no network requests",
             "Local file processing only"
           ],
-          "networkRequirements": {
-            "mode": "offline",
-            "firstRun": "none",
-            "reason": ""
-          },
-          "resources": {
-            "estimatedRamMB": 9,
-            "estimateMethod": "manual",
-            "confidence": "user-reported",
-            "capturedAt": null
-          },
-          "sandbox": "worker-assisted-ui",
-          "minApiLevel": 195,
           "orientation": "auto",
-          "theme": "system",
           "updateChannel": "stable",
-          "files": [
-            {
-              "path": "index.html",
-              "type": "html"
-            },
-            {
-              "path": "style.css",
-              "type": "css"
-            },
-            {
-              "path": "archive-engine.js",
-              "type": "javascript"
-            },
-            {
-              "path": "app.js",
-              "type": "javascript"
-            },
-            {
-              "path": "assets/archiver-hero.svg",
-              "type": "image"
-            },
-            {
-              "path": "docs/ZIPFORGE-NOTES.md",
-              "type": "markdown"
-            },
-            {
-              "path": "docs/LUNITE-TEST-PLAN.md",
-              "type": "markdown"
-            }
-          ],
-          "screenshots": [
-            "store/screenshots/zipforge-create.svg",
-            "store/screenshots/zipforge-extract.svg"
-          ],
-          "iconUrl": "store/icon.svg",
-          "featureGraphic": "store/feature.svg",
           "sizeBytes": 38941,
           "sha256": "8f41238442e1c050567e22ab8f02fafc7dd1443f1bf0e516ce134eadac4f4dbd",
           "package": "packages/acoz/org.lunos.demo.zipforge/1.0.0.ln",
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": "",
-          "firstPublishedAt": "2026-10-24T16:34:27.049Z",
-          "publishedAt": "2026-10-24T16:34:27.049Z",
-          "versionReleaseDate": "2026-10-24T16:34:27.049Z",
-          "releaseDate": "2026-10-24T16:34:27.049Z",
-          "uploadedAt": "2026-10-24T16:34:27.049Z"
+          "manifestVersion": 1
         }
       ]
     },
