@@ -29,7 +29,7 @@ function accountPublisherName(u,env,...values){for(const value of values){const 
 const SESSION_TTL=604800000;
 async function session(u,env){const now=Date.now(),p=b64(new TextEncoder().encode(JSON.stringify({sub:u.sub,email:u.email,name:u.name||"",pic:u.picture||"",iat:now,exp:now+SESSION_TTL})));return p+"."+await mac(p,env)}
 const subjectKey=(subject,env)=>mac('account-revocation:'+subject,env);
-async function user(req,env){
+async function user(req,env,strict=false){
   const a=req.headers.get("Authorization")||"";
   const raw=a.startsWith("Bearer ")?a.slice(7):"";
   if(!raw||!env.SESSION_SECRET)return null;
@@ -39,10 +39,14 @@ async function user(req,env){
     if(!await crypto.subtle.verify('HMAC',await key(env),hexBytes(s),new TextEncoder().encode(p)))return null;
     const u=JSON.parse(new TextDecoder().decode(u64(p)));
     if(!u?.sub||!u?.email||!(u.exp>Date.now()))return null;
-    const cutoff=await sb(env,`account_session_revocations?subject_key=eq.${await subjectKey(u.sub,env)}&select=revoked_at`);
+    let cutoff;
+    try{cutoff=await sb(env,`account_session_revocations?subject_key=eq.${await subjectKey(u.sub,env)}&select=revoked_at`)}catch(error){
+      if(strict)throw Object.assign(Error('Session verification unavailable'),{code:error.code,stage:'session'});
+      return null;
+    }
     if((u.iat??u.exp-SESSION_TTL)<=Number(cutoff?.[0]?.revoked_at||0))return null;
     return u;
-  }catch{return null}
+  }catch(error){if(strict&&error.stage)throw error;return null}
 }
 function allowedReturn(value,env){
   try{
@@ -165,7 +169,8 @@ async function verifiedPublisherName(u,env,data){const name=accountPublisherName
 async function saveDeveloperProfile(u,env,patch){try{if(env.LUNOS_DB){await recordDeveloper(u,env);const old=await readDeveloperProfile(u,env);if(patch.company_name!==undefined){if(old.company_name)await reserveD1PublisherName(env,u,old.company_name);await reserveD1PublisherName(env,u,patch.company_name)}await env.LUNOS_DB.prepare('UPDATE developers SET display_name=?1,company_name=?2,updated_at=?3 WHERE google_sub=?4').bind(patch.display_name??old.display_name??u.name??'',patch.company_name??old.company_name??'',Date.now(),u.sub).run()}else{if(patch.company_name!==undefined){const ready=await sb(env,'rpc/publisher_name_policy_version',{method:'POST',body:'{}'});if(ready!==1)throw Error('Publisher name reservation policy is not installed.')}const rows=await sb(env,'developers?on_conflict=google_sub&select=display_name,company_name,updated_at',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify({google_sub:u.sub,email:u.email||'',name:u.name||'',picture:u.picture||'',developer_id:developerId(u,env),updated_at:Date.now(),...patch})});if(!Array.isArray(rows)||!rows.length)throw Error('Profile write was not confirmed.')}const saved=await readDeveloperProfile(u,env);for(const [key,value]of Object.entries(patch))if(saved[key]!==value)throw Error('Profile read-back did not match the saved value.');return saved}catch(error){if(error.status===409||/PUBLISHER_NAME_TAKEN/.test(error.message||''))throw nameTaken();throw profileStorageError(env,error)}}
 
 async function recordDeveloper(u,env){const db=env.LUNOS_DB;if(!db||!u?.sub)return;const dev=developerId(u,env);try{await db.prepare("INSERT INTO developers (google_sub,email,name,picture,developer_id,updated_at) VALUES (?1,?2,?3,?4,?5,?6) ON CONFLICT(google_sub) DO UPDATE SET email=excluded.email,name=excluded.name,picture=excluded.picture,developer_id=excluded.developer_id,updated_at=excluded.updated_at").bind(u.sub,u.email,u.name||"",u.picture||"",dev,Date.now()).run()}catch(e){console.error("LunOS developer DB:",e)}}
-async function profile(req,env){const u=await user(req,env);if(!u)return J({authenticated:false},401,env,req);await recordDeveloper(u,env);try{const p=await sbEnsureProfile(env,u);if(!p)return J({error:"Profile unavailable"},503,env,req);if(p.is_banned)return J({authenticated:false,error:"Account banned"},403,env,req);let row={},storageError=null;try{row=await readDeveloperProfile(u,env)}catch(error){storageError=error}const displayName=String(row.display_name||u.name||u.email||"");const companyName=accountPublisherName(u,env,row.company_name)||"";return J({authenticated:true,accountId:String(p.id),developerId:developerId(u,env),name:displayName,displayName,email:u.email||p.lunid||"",lunid:p.lunid||u.email||"",picture:u.picture||"",authType:String(u.sub||"").startsWith("lunid:")?"lunid":"google",companyName,companyNameSet:!!companyName,profileStorageReady:!storageError,...(storageError?{profileStorageError:storageError.message}:{}),recoveryEmail:"",memberSince:"",hasPassword:false},200,env,req)}catch(e){return J({error:e.message||"Profile unavailable"},503,env,req)}}
+const isLunIdSession=u=>String(u?.sub||'').startsWith('lunid:')||/@lunos$/i.test(u?.email||'');
+async function profile(req,env){const u=await user(req,env);if(!u)return J({authenticated:false},401,env,req);await recordDeveloper(u,env);try{const p=await sbEnsureProfile(env,u);if(!p)return J({error:"Profile unavailable"},503,env,req);if(p.is_banned)return J({authenticated:false,error:"Account banned"},403,env,req);let row={},storageError=null;try{row=await readDeveloperProfile(u,env)}catch(error){storageError=error}const displayName=String(row.display_name||u.name||u.email||"");const companyName=accountPublisherName(u,env,row.company_name)||"";return J({authenticated:true,accountId:String(p.id),developerId:developerId(u,env),name:displayName,displayName,email:u.email||p.lunid||"",lunid:p.lunid||u.email||"",picture:u.picture||"",authType:isLunIdSession(u)?"lunid":"google",companyName,companyNameSet:!!companyName,profileStorageReady:!storageError,...(storageError?{profileStorageError:storageError.message}:{}),recoveryEmail:"",memberSince:"",hasPassword:isLunIdSession(u)},200,env,req)}catch(e){return J({error:e.message||"Profile unavailable"},503,env,req)}}
 function versionsOf(p){const a=Array.isArray(p?.versions)?p.versions.slice():[];if(p?.package)a.push({...p,versions:undefined});const m=new Map();for(const x of a){const v=x.version||x.appVersion;if(v)m.set(v,x)}return [...m.values()].sort((a,b)=>cmp(a.version||a.appVersion,b.version||b.appVersion))}
 function mergePackage(old,entry){const vs=versionsOf(old);vs.push(entry);const m=new Map(vs.map(x=>[x.version||x.appVersion,x]));const all=[...m.values()].sort((a,b)=>cmp(a.version||a.appVersion,b.version||b.appVersion));const latest=all[all.length-1];const first=all.find(x=>x.firstPublishedAt)?.firstPublishedAt||all[0]?.publishedAt||entry.publishedAt;return {...latest,firstPublishedAt:first,versions:all}}
 function safeText(x){return typeof x==="string"?x.toLowerCase():""}
@@ -262,7 +267,7 @@ async function reviews(req,env,u){
 }
 
 
-async function sb(env,path,o={}){if(!env.SUPABASE_URL||!env.SUPABASE_SERVICE_KEY)throw Error("Supabase is not configured");const key=env.SUPABASE_SERVICE_KEY;const hd={"Content-Type":"application/json"};hd["api"+"key"]=key;hd["Authori"+"zation"]="Bear"+"er "+key;const r=await fetch(env.SUPABASE_URL+"/rest/v1/"+path,{...o,headers:{...hd,...(o.headers||{})}});const t=await r.text();let x;try{x=JSON.parse(t)}catch{x={message:t}}if(!r.ok)throw Error((x&&x.message)||("Supabase HTTP "+r.status));return x}
+async function sb(env,path,o={}){if(!env.SUPABASE_URL||!env.SUPABASE_SERVICE_KEY)throw Error("Supabase is not configured");const key=env.SUPABASE_SERVICE_KEY;const hd={"Content-Type":"application/json"};hd["api"+"key"]=key;hd["Authori"+"zation"]="Bear"+"er "+key;const r=await fetch(env.SUPABASE_URL+"/rest/v1/"+path,{...o,headers:{...hd,...(o.headers||{})}});const t=await r.text();let x;try{x=JSON.parse(t)}catch{x={message:t}}if(!r.ok)throw Object.assign(Error((x&&x.message)||("Supabase HTTP "+r.status)),{code:x?.code});return x}
 async function sbProfile(env,u){const rows=await sb(env,`profiles?google_sub=eq.${encodeURIComponent(u.sub)}&select=id,lunid,is_banned`);return rows&&rows[0]?rows[0]:null}
 async function sbEnsureProfile(env,u){let p=await sbProfile(env,u);if(p)return p;if(String(u.sub).startsWith("lunid:"))return null;const lunid=slug(u.email)+"@lunos";await sb(env,"profiles",{method:"POST",headers:{Prefer:"resolution=ignore-duplicates"},body:JSON.stringify({google_sub:u.sub,lunid,display_name:u.name||"",avatar_url:u.picture||"",is_publisher:true})});return sbProfile(env,u)}
 const needUser=async(req,env)=>{const u=await user(req,env);if(!u)throw Object.assign(Error("Sign in required"),{status:401});const p=await sbEnsureProfile(env,u);if(!p)throw Error("Profile unavailable");if(p.is_banned)throw Object.assign(Error("Account banned"),{status:403});return p};
@@ -278,21 +283,29 @@ async function profileUpdate(req,env){try{const u=await user(req,env);if(!u)retu
 async function recoverySet(req,env){try{const p=await needUser(req,env);const b=await req.json().catch(()=>({}));const email=String(b.email||"").trim().toLowerCase();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return J({error:"Enter a valid recovery email."},400,env,req);await sb(env,`profiles?id=eq.${p.id}`,{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify({recovery_email:email})});return J({ok:true,email},200,env,req)}catch(e){const m=e.message||"Recovery email failed";return J({error:/recovery_email/.test(m)?"Recovery email is not enabled on the server yet.":m},e.status||500,env,req)}}
 async function accountDelete(req,env){
   try{
-    const u=await user(req,env);if(!u)return J({error:'Sign in required'},401,env,req);
-    const p=await sbProfile(env,u);if(!p)return J({error:'Profile not found'},404,env,req);
+    const u=await user(req,env,true);
+    if(!u)return J({error:'Your session has expired. Sign in and try again.',code:'SIGN_IN_REQUIRED'},401,env,req);
     const b=await req.json().catch(()=>({}));
-    if(String(b.confirm||'')!=='DELETE')return J({error:'Type DELETE to confirm account deletion.'},400,env,req);
-    if(String(u.sub).startsWith('lunid:')){
-      const rows=await sb(env,`profiles?id=eq.${encodeURIComponent(p.id)}&select=password_hash`),hash=rows?.[0]?.password_hash;
-      if(!hash||!await pwCheck(String(b.password||''),hash))return J({error:'Current password is incorrect.'},403,env,req);
+    if(String(b?.confirm||'').trim().toUpperCase()!=='DELETE')return J({error:'Type DELETE to confirm.'},400,env,req);
+    const rows=await sb(env,`profiles?google_sub=eq.${encodeURIComponent(u.sub)}&select=id,password_hash`),p=rows?.[0];
+    if(!p)return J({error:'This account no longer exists.',code:'ACCOUNT_NOT_FOUND'},404,env,req);
+    if(isLunIdSession(u)){
+      if(!b.password)return J({error:'Enter your current LunID password.'},400,env,req);
+      if(!p.password_hash||!await pwCheck(String(b.password),p.password_hash))return J({error:'Current LunID password is incorrect.'},403,env,req);
     }else if(!u.iat||Date.now()-u.iat>600000){
-      return J({error:'For your security, sign in again with Google, then retry deletion.'},403,env,req);
+      return J({error:'Sign in again with Google, then retry deletion.'},403,env,req);
     }
     if(env.LUNOS_DB)await env.LUNOS_DB.prepare('DELETE FROM developers WHERE google_sub=?1').bind(u.sub).run();
     const deleted=await sb(env,'rpc/delete_lunos_account',{method:'POST',body:JSON.stringify({p_subject:u.sub,p_subject_key:await subjectKey(u.sub,env),p_cutoff:Date.now()})});
-    if(deleted!==true)return J({error:'The account was not deleted.'},409,env,req);
+    if(deleted!==true)return J({error:'Account deletion couldnâ€™t be confirmed. Sign in again to check.',code:'DELETE_NOT_CONFIRMED'},409,env,req);
     return J({ok:true},200,env,req);
-  }catch(e){console.error('LunOS account deletion:',e);return J({error:'Could not delete this account. Try again or contact LunOS support.'},e.status||500,env,req)}
+  }catch(error){
+    const code=['PGRST202','PGRST205','42P01','42883','42501'].includes(error.code)||error.stage==='session'?'DELETE_UNAVAILABLE':error.code==='23503'?'DELETE_BLOCKED':'DELETE_FAILED';
+    const reference=crypto.randomUUID();
+    console.error('Account deletion',reference,code,error.code||'',error.stage||'delete');
+    const message=code==='DELETE_BLOCKED'?'This account couldnâ€™t be deleted. Contact support.':code==='DELETE_UNAVAILABLE'?'Account deletion is temporarily unavailable. Try again later.':'Account deletion couldnâ€™t be completed. Try again or contact support.';
+    return J({error:message,code,reference},code==='DELETE_BLOCKED'?409:code==='DELETE_UNAVAILABLE'?503:500,env,req);
+  }
 }
 async function lunidForgot(req,env){try{const b=await req.json().catch(()=>({}));const local=String(b.lunid||"").trim().toLowerCase().replace(/@lunos$/,"");if(local){try{await sb(env,"reports",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify({package_id:"account",reporter:null,reason:"Password reset requested for "+local+"@lunos"})})}catch{}}return J({ok:true,message:"Request noted. If this LunID has a recovery email, support can verify that email and reset the password. Automatic reset emails arrive with the mail update."},200,env,req)}catch{return J({error:"Request failed"},500,env,req)}}
 async function passwordChange(req,env){try{const u=await user(req,env);if(!u)throw Object.assign(Error("Sign in required"),{status:401});const p=await sbProfile(env,u);if(!p)return J({error:"Profile not found"},404,env,req);const b=await req.json().catch(()=>({}));const cur=String(b.currentPassword||""),nw=String(b.newPassword||"");if(nw.length<8)return J({error:"New password must be at least 8 characters."},400,env,req);const rows=await sb(env,`profiles?id=eq.${p.id}&select=password_hash`);const hash=rows&&rows[0]&&rows[0].password_hash;if(!hash)return J({error:"This account signs in with Google and has no LunID password to change."},400,env,req);if(!await pwCheck(cur,hash))return J({error:"Current password is incorrect."},403,env,req);if(cur===nw)return J({error:"New password must be different from the current one."},400,env,req);await sb(env,`profiles?id=eq.${p.id}`,{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify({password_hash:await pwHash(nw)})});return J({ok:true},200,env,req)}catch(e){return J({error:e.message||"Password change failed"},e.status||500,env,req)}}
@@ -367,7 +380,7 @@ async function meshVaultAccess(req,env){
 export default{async fetch(req,env){
  const u=new URL(req.url);
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:C(env,req)});
- if(req.method==="GET"&&u.pathname==="/")return J({service:"LunOS Publisher",purpose:"Official server-side developer authentication and LNPK package publishing service for the LunOS App Repository",status:"online",version:"0.25.0",capabilities:"/api/capabilities",repository:`https://github.com/${O}/${R}`,auth:"Google",upload:"/api/upload",catalog:"/api/catalog",search:"/api/search",developerApps:"/api/developer",download:"/api/download",reviews:"/api/reviews"},200,env,req);
+ if(req.method==="GET"&&u.pathname==="/")return J({service:"LunOS Publisher",purpose:"Official server-side developer authentication and LNPK package publishing service for the LunOS App Repository",status:"online",version:"0.25.1",capabilities:"/api/capabilities",repository:`https://github.com/${O}/${R}`,auth:"Google",upload:"/api/upload",catalog:"/api/catalog",search:"/api/search",developerApps:"/api/developer",download:"/api/download",reviews:"/api/reviews"},200,env,req);
  if(req.method==="GET"&&u.pathname==="/api/capabilities")return J(LUNITE_CAPABILITIES,200,env,req);
  if(req.method==="GET"&&u.pathname==="/api/status")try{const r=await gh(env.GITHUB_TOKEN,`/repos/${O}/${R}`),me=await gh(env.GITHUB_TOKEN,"/user");return J({service:"LunOS Publisher",status:"ready",githubConfigured:true,github:{authenticated:true,username:me.login,repositoryAccessible:true,repositoryPermissions:r.permissions},googleConfigured:!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.SESSION_SECRET),reviewsConfigured:!!env.LUNOS_DB},200,env,req)}catch(e){return J({error:e.message},502,env,req);
  }
