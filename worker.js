@@ -27,7 +27,7 @@ function isOfficialAccount(u,env){const email=String(u?.email||"").trim().toLowe
 function accountPublisherName(u,env,...values){for(const value of values){const name=String(value||"").replace(/[\x00-\x1f\x7f]/g,"").trim().slice(0,120);if(!name)continue;const key=name.toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();if(key==="lunos official"){if(isOfficialAccount(u,env))return "LunOS Official";continue}const safe=safePublisherName(name);if(safe)return safe}return ""}
 
 const SESSION_TTL=604800000;
-async function session(u,env){const now=Date.now(),p=b64(new TextEncoder().encode(JSON.stringify({sub:u.sub,email:u.email,name:u.name||"",pic:u.picture||"",iat:now,exp:now+SESSION_TTL})));return p+"."+await mac(p,env)}
+async function session(u,env,now=Date.now()){const p=b64(new TextEncoder().encode(JSON.stringify({sub:u.sub,email:u.email,name:u.name||"",pic:u.picture||"",iat:now,exp:now+SESSION_TTL})));return p+"."+await mac(p,env)}
 const subjectKey=(subject,env)=>mac('account-revocation:'+subject,env);
 async function user(req,env,strict=false){
   const a=req.headers.get("Authorization")||"";
@@ -276,7 +276,7 @@ const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 async function pwHash(pw){const salt=crypto.getRandomValues(new Uint8Array(16));const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations:100000,hash:"SHA-256"},km,256);return "pbkdf2$100000$"+b64e(salt)+"$"+b64e(bits)}
 async function pwCheck(pw,stored){try{const p=String(stored||"").split("$");if(p.length!==4||p[0]!=="pbkdf2")return false;const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:b64d(p[2]),iterations:Number(p[1])||100000,hash:"SHA-256"},km,256);const got=b64e(bits);let diff=got.length^p[3].length;for(let i=0;i<Math.min(got.length,p[3].length);i++)diff|=got.charCodeAt(i)^p[3].charCodeAt(i);return diff===0}catch{return false}}
 async function lunidRegister(req,env){try{let b;try{b=await req.json()}catch{return J({error:"Invalid request"},400,env,req)}const local=String(b.lunid||"").trim().toLowerCase().replace(/@lunos$/,""),name=String(b.name||"").trim().slice(0,80),pw=String(b.password||"");if(!/^[a-z0-9][a-z0-9._-]{2,47}$/.test(local))return J({error:"LunID must be 3-48 characters: letters, numbers, dot, dash or underscore."},400,env,req);if(!name)return J({error:"Display name is required."},400,env,req);if(pw.length<8)return J({error:"Password must be at least 8 characters."},400,env,req);const lunid=local+"@lunos";const existing=await sb(env,`profiles?lunid=eq.${encodeURIComponent(lunid)}&select=id`);if(existing&&existing.length)return J({error:"This LunID is already taken."},409,env,req);const hash=await pwHash(pw),accountSubject="lunid:"+local+":"+crypto.randomUUID();const ins=await sb(env,"profiles",{method:"POST",headers:{Prefer:"return=representation"},body:JSON.stringify({google_sub:accountSubject,lunid,display_name:name,password_hash:hash,is_publisher:false})});if(!ins||!ins.length)return J({error:"Could not create this LunID. LunID sign-in may not be enabled on the server yet."},500,env,req);const token=await session({sub:accountSubject,email:lunid,name},env);return J({ok:true,token,lunid,name},201,env,req)}catch(e){return J({error:"LunID create failed: "+(e&&e.message||e)},500,env,req)}}
-async function lunidLogin(req,env){try{let b;try{b=await req.json()}catch{return J({error:"Invalid request"},400,env,req)}const local=String(b.lunid||"").trim().toLowerCase().replace(/@lunos$/,""),pw=String(b.password||""),lunid=local+"@lunos";const rows=await sb(env,`profiles?lunid=eq.${encodeURIComponent(lunid)}&select=google_sub,display_name,password_hash,is_banned`);const row=rows&&rows[0];if(!row||!row.password_hash)return J({error:"Invalid LunID or password."},401,env,req);if(row.is_banned)return J({error:"This account is banned."},403,env,req);if(!await pwCheck(pw,row.password_hash))return J({error:"Invalid LunID or password."},401,env,req);const token=await session({sub:row.google_sub,email:lunid,name:row.display_name||""},env);return J({ok:true,token,lunid,name:row.display_name||""},200,env,req)}catch(e){return J({error:"LunID sign-in failed: "+(e&&e.message||e)},500,env,req)}}
+async function lunidLogin(req,env){try{const started=Date.now();let b;try{b=await req.json()}catch{return J({error:"Invalid request"},400,env,req)}const local=String(b.lunid||"").trim().toLowerCase().replace(/@lunos$/,""),pw=String(b.password||""),lunid=local+"@lunos";const rows=await sb(env,`profiles?lunid=eq.${encodeURIComponent(lunid)}&select=google_sub,display_name,password_hash,is_banned`);const row=rows&&rows[0];if(!row||!row.password_hash)return J({error:"Invalid LunID or password."},401,env,req);if(row.is_banned)return J({error:"This account is banned."},403,env,req);if(!await pwCheck(pw,row.password_hash))return J({error:"Invalid LunID or password."},401,env,req);const token=await session({sub:row.google_sub,email:lunid,name:row.display_name||""},env,started);return J({ok:true,token,lunid,name:row.display_name||""},200,env,req)}catch(e){return J({error:"LunID sign-in failed: "+(e&&e.message||e)},500,env,req)}}
 async function leaderboardApi(req,env,u){try{const stats=(await sb(env,"package_stats?select=package_id,downloads_total,likes_total,rating_sum,rating_count"))||[];const recent={};try{const since=new Date(Date.now()-2592000000).toISOString().slice(0,10);const daily=(await sb(env,`downloads_daily?day=gte.${since}&select=package_id&limit=100000`))||[];daily.forEach(r=>{recent[r.package_id]=(recent[r.package_id]||0)+1})}catch{}const {cat}=await getCatalog(env);const byId=new Map((cat.packages||[]).map(p=>[String(p.id),p]));const rows=stats.map(x=>{const p=byId.get(String(x.package_id))||{};const U=Number(x.downloads_total||0),L=Number(x.likes_total||0),rc=Number(x.rating_count||0),rs=Number(x.rating_sum||0);const br=(rs+28.8)/(rc+8);const r30=Number(recent[x.package_id]||0);const score=Math.round((10*Math.log1p(U)*(br/5)+3*Math.log1p(L)+6*Math.log1p(r30))*10)/10;return{package_id:String(x.package_id),name:p.name||String(x.package_id),publisher:(p.publisher&&p.publisher.name)||"",publisherId:(p.publisher&&p.publisher.id)||"",type:p.type||"gui",category:p.category||"",downloads:U,likes:L,rating:rc?Math.round(rs/rc*10)/10:0,ratingCount:rc,recent30:r30,score}});rows.sort((a,b)=>b.score-a.score);if(u.searchParams.get("type")==="packages")return J({type:"leaderboard_packages",results:rows.slice(0,50)},200,env,req);const devs=new Map();rows.forEach(r=>{const k=r.publisherId||r.publisher||"unknown";const d=devs.get(k)||{developerId:k,name:r.publisher||k,score:0,downloads:0,likes:0,packages:0,ratingSum:0,ratingCount:0};d.score=Math.round((d.score+r.score)*10)/10;d.downloads+=r.downloads;d.likes+=r.likes;d.packages+=1;d.ratingSum+=r.rating*r.ratingCount;d.ratingCount+=r.ratingCount;devs.set(k,d)});const list=[...devs.values()].map(d=>({...d,rating:d.ratingCount?Math.round(d.ratingSum/d.ratingCount*10)/10:0})).sort((a,b)=>b.score-a.score);return J({type:"leaderboard_developers",results:list.slice(0,50)},200,env,req)}catch(e){return J({error:e.message||"Leaderboard unavailable"},502,env,req)}}
 const ipKey=async req=>{const ip=req.headers.get("CF-Connecting-IP")||"0.0.0.0";const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(ip));return "ip:"+hex(h).slice(0,24)};
 async function profileUpdate(req,env){try{const u=await user(req,env);if(!u)return J({error:"Sign-in required"},401,env,req);await recordDeveloper(u,env);const b=await req.json().catch(()=>({}));const hasDisplay=Object.prototype.hasOwnProperty.call(b||{},"displayName"),hasCompany=Object.prototype.hasOwnProperty.call(b||{},"companyName");if(!hasDisplay&&!hasCompany)return J({error:"displayName or companyName is required"},400,env,req);const clean=(v,n)=>String(v||"").replace(/[\x00-\x1f\x7f]/g,"").trim().slice(0,n),displayName=hasDisplay?clean(b.displayName,80):"",companyName=hasCompany?String(b.companyName||'').normalize('NFKC').replace(/\s+/gu,' ').replace(/[\x00-\x1f\x7f]/g,'').trim().slice(0,120):"";if(hasDisplay&&!displayName)return J({error:"Display name is required."},400,env,req);if(hasCompany&&/\p{Cf}/u.test(companyName))return J({error:"Invisible formatting characters are not allowed in publisher names."},400,env,req);if(hasCompany&&!companyName)return J({error:"Company / publisher name is required."},400,env,req);if(hasCompany&&companyName.toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim()==="lunos official"&&!isOfficialAccount(u,env))return J({error:"LunOS Official is reserved for the authorized official account."},403,env,req);const identity=await sbEnsureProfile(env,u);if(!identity||identity.is_banned)return J({error:"Account is unavailable or banned."},403,env,req);const old=await readDeveloperProfile(u,env),patch={};if(hasDisplay)patch.display_name=displayName;if(hasCompany){if(!accountPublisherName(u,env,companyName))return J({error:"Choose a non-generic company / publisher name."},400,env,req);patch.company_name=companyName}const saved=await saveDeveloperProfile(u,env,patch);let updatedListings=0,listingSyncError="";if(hasCompany&&companyName!==String(old.company_name||"")){try{updatedListings=await updateCatalogPublisherName(u,env,companyName)}catch(e){listingSyncError=e.message||"Existing listings could not be refreshed"}}return J({ok:true,displayName:saved.display_name||u.name||"",companyName:saved.company_name||"",companyNameSet:!!accountPublisherName(u,env,saved.company_name),updatedListings,...(listingSyncError?{listingSyncError}:{})},200,env,req)}catch(e){return J({error:e.message||"Profile update failed",...(e.code?{code:e.code}:{})},e.status||500,env,req)}}
@@ -307,8 +307,70 @@ async function accountDelete(req,env){
     return J({error:message,code,reference},code==='DELETE_BLOCKED'?409:code==='DELETE_UNAVAILABLE'?503:500,env,req);
   }
 }
-async function lunidForgot(req,env){try{const b=await req.json().catch(()=>({}));const local=String(b.lunid||"").trim().toLowerCase().replace(/@lunos$/,"");if(local){try{await sb(env,"reports",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify({package_id:"account",reporter:null,reason:"Password reset requested for "+local+"@lunos"})})}catch{}}return J({ok:true,message:"Request noted. If this LunID has a recovery email, support can verify that email and reset the password. Automatic reset emails arrive with the mail update."},200,env,req)}catch{return J({error:"Request failed"},500,env,req)}}
-async function passwordChange(req,env){try{const u=await user(req,env);if(!u)throw Object.assign(Error("Sign in required"),{status:401});const p=await sbProfile(env,u);if(!p)return J({error:"Profile not found"},404,env,req);const b=await req.json().catch(()=>({}));const cur=String(b.currentPassword||""),nw=String(b.newPassword||"");if(nw.length<8)return J({error:"New password must be at least 8 characters."},400,env,req);const rows=await sb(env,`profiles?id=eq.${p.id}&select=password_hash`);const hash=rows&&rows[0]&&rows[0].password_hash;if(!hash)return J({error:"This account signs in with Google and has no LunID password to change."},400,env,req);if(!await pwCheck(cur,hash))return J({error:"Current password is incorrect."},403,env,req);if(cur===nw)return J({error:"New password must be different from the current one."},400,env,req);await sb(env,`profiles?id=eq.${p.id}`,{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify({password_hash:await pwHash(nw)})});return J({ok:true},200,env,req)}catch(e){return J({error:e.message||"Password change failed"},e.status||500,env,req)}}
+const recoveryResponse=(req,env,data,status=200)=>{
+  const response=J(data,status,env,req);
+  response.headers.set('Cache-Control','no-store');
+  return response;
+};
+async function recoveryBody(req){
+  const reader=req.body?.getReader();
+  if(!reader)return {};
+  const decoder=new TextDecoder();let size=0,text='';
+  for(;;){
+    const {value,done}=await reader.read();
+    if(done)break;
+    if((size+=value.byteLength)>4096){await reader.cancel();return {};}
+    text+=decoder.decode(value,{stream:true});
+  }
+  return JSON.parse(text+decoder.decode())||{};
+}
+const recoveryRpc=(env,name,body)=>sb(env,'rpc/lunid_recovery_'+name,{method:'POST',body:JSON.stringify(body)});
+const recoveryAllow=async(env,bucket,limit)=>await recoveryRpc(env,'allow',{p_bucket_key:await mac('recovery-limit:'+bucket,env),p_limit:limit})===true;
+async function lunidBackupCodes(req,env){
+  const send=(data,status)=>recoveryResponse(req,env,data,status);
+  try{
+    const u=await user(req,env,true);
+    if(!u)return send({error:'Sign in again to generate backup codes.'},401);
+    if(!isLunIdSession(u))return send({error:'Backup codes are available for LunID accounts.'},403);
+    const b=await recoveryBody(req).catch(()=>({}));
+    if(typeof b.password!=='string'||!b.password||b.password.length>1024)return send({error:'Enter your current LunID password.'},400);
+    if(!await recoveryAllow(env,'issue:'+u.sub,8))return send({error:'Too many attempts. Try again later.'},429);
+    const rows=await sb(env,`profiles?google_sub=eq.${encodeURIComponent(u.sub)}&select=password_hash,is_banned`);
+    const profile=rows?.[0];
+    if(!profile?.password_hash||profile.is_banned||!await pwCheck(b.password,profile.password_hash))return send({error:'Current LunID password is incorrect.'},403);
+    const raw=Array.from({length:8},()=>hex(crypto.getRandomValues(new Uint8Array(16))));
+    const hashes=await Promise.all(raw.map(code=>mac('lunid-backup:'+code,env)));
+    const issued=await recoveryRpc(env,'issue',{p_subject:u.sub,p_password_hash:profile.password_hash,p_codes:hashes,p_subject_key:await subjectKey(u.sub,env),p_session_issued:u.iat??u.exp-SESSION_TTL});
+    if(issued!==true)return send({error:'Your account changed. Sign in again and try again.'},409);
+    return send({ok:true,codes:raw.map(code=>code.toUpperCase().match(/.{1,8}/g).join('-'))});
+  }catch(error){
+    console.error('LunID backup code issuance unavailable',error.code||'');
+    return send({error:'Backup codes are temporarily unavailable.'},503);
+  }
+}
+async function lunidBackupReset(req,env){
+  const send=(data,status)=>recoveryResponse(req,env,data,status);
+  const invalid=()=>send({error:'The LunID or backup code is incorrect, or the code was already used.'},400);
+  try{
+    const b=await recoveryBody(req).catch(()=>({}));
+    const local=typeof b.lunid==='string'?b.lunid.trim().toLowerCase().replace(/@lunos$/,''):'';
+    const code=typeof b.code==='string'?b.code.replace(/[-\s]/g,'').toLowerCase():'';
+    if(typeof b.password!=='string'||b.password.length<8||b.password.length>128)return send({error:'Use 8 to 128 characters for the new password.'},400);
+    if(!/^[a-z0-9][a-z0-9._-]{2,47}$/.test(local)||!/^[a-f0-9]{32}$/.test(code))return invalid();
+    if(!await recoveryAllow(env,'reset:'+(req.headers.get('CF-Connecting-IP')||'unknown'),20))return send({error:'Too many attempts. Try again later.'},429);
+    const lunid=local+'@lunos';
+    const rows=await sb(env,`profiles?lunid=eq.${encodeURIComponent(lunid)}&select=google_sub`);
+    const subject=rows?.[0]?.google_sub;
+    const newHash=await pwHash(b.password);
+    if(!subject)return invalid();
+    const reset=await recoveryRpc(env,'reset',{p_subject:subject,p_lunid:lunid,p_code_hash:await mac('lunid-backup:'+code,env),p_new_hash:newHash,p_subject_key:await subjectKey(subject,env)});
+    return reset===true?send({ok:true}):invalid();
+  }catch(error){
+    console.error('LunID backup code reset unavailable',error.code||'');
+    return send({error:'Password reset is temporarily unavailable.'},503);
+  }
+}
+async function passwordChange(req,env){try{const u=await user(req,env);if(!u)throw Object.assign(Error("Sign in required"),{status:401});const p=await sbProfile(env,u);if(!p)return J({error:"Profile not found"},404,env,req);const b=await req.json().catch(()=>({}));const cur=String(b.currentPassword||""),nw=String(b.newPassword||"");if(nw.length<8)return J({error:"New password must be at least 8 characters."},400,env,req);const rows=await sb(env,`profiles?id=eq.${p.id}&select=password_hash`);const hash=rows&&rows[0]&&rows[0].password_hash;if(!hash)return J({error:"This account signs in with Google and has no LunID password to change."},400,env,req);if(!await pwCheck(cur,hash))return J({error:"Current password is incorrect."},403,env,req);if(cur===nw)return J({error:"New password must be different from the current one."},400,env,req);const changed=await sb(env,`profiles?id=eq.${p.id}&password_hash=eq.${encodeURIComponent(hash)}`,{method:"PATCH",headers:{Prefer:"return=representation"},body:JSON.stringify({password_hash:await pwHash(nw)})});if(!changed?.length)return J({error:"Your password changed. Sign in again and retry."},409,env,req);return J({ok:true},200,env,req)}catch(e){return J({error:e.message||"Password change failed"},e.status||500,env,req)}}
 async function storeApi(req,env,u){
  try{
   if(u.pathname==="/api/stats"&&req.method==="GET"){const rows=await sb(env,"package_stats?select=package_id,downloads_total,likes_total,rating_sum,rating_count");return J({stats:rows||[]},200,env,req)}
@@ -380,7 +442,7 @@ async function meshVaultAccess(req,env){
 export default{async fetch(req,env){
  const u=new URL(req.url);
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:C(env,req)});
- if(req.method==="GET"&&u.pathname==="/")return J({service:"LunOS Publisher",purpose:"Official server-side developer authentication and LNPK package publishing service for the LunOS App Repository",status:"online",version:"0.25.1",capabilities:"/api/capabilities",repository:`https://github.com/${O}/${R}`,auth:"Google",upload:"/api/upload",catalog:"/api/catalog",search:"/api/search",developerApps:"/api/developer",download:"/api/download",reviews:"/api/reviews"},200,env,req);
+ if(req.method==="GET"&&u.pathname==="/")return J({service:"LunOS Publisher",purpose:"Official server-side developer authentication and LNPK package publishing service for the LunOS App Repository",status:"online",version:"0.26.0",capabilities:"/api/capabilities",repository:`https://github.com/${O}/${R}`,auth:"Google",upload:"/api/upload",catalog:"/api/catalog",search:"/api/search",developerApps:"/api/developer",download:"/api/download",reviews:"/api/reviews"},200,env,req);
  if(req.method==="GET"&&u.pathname==="/api/capabilities")return J(LUNITE_CAPABILITIES,200,env,req);
  if(req.method==="GET"&&u.pathname==="/api/status")try{const r=await gh(env.GITHUB_TOKEN,`/repos/${O}/${R}`),me=await gh(env.GITHUB_TOKEN,"/user");return J({service:"LunOS Publisher",status:"ready",githubConfigured:true,github:{authenticated:true,username:me.login,repositoryAccessible:true,repositoryPermissions:r.permissions},googleConfigured:!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.SESSION_SECRET),reviewsConfigured:!!env.LUNOS_DB},200,env,req)}catch(e){return J({error:e.message},502,env,req);
  }
@@ -402,7 +464,9 @@ if(u.pathname==="/auth/cloud/refresh"&&req.method==="POST")return cloudOAuthRefr
  if(u.pathname==="/api/account/recovery"&&req.method==="POST")return recoverySet(req,env);
  if(u.pathname==="/api/account/delete"&&req.method==="POST")return accountDelete(req,env);
  if(u.pathname==="/api/account/password"&&req.method==="POST")return passwordChange(req,env);
- if(u.pathname==="/api/auth/lunid/forgot"&&req.method==="POST")return lunidForgot(req,env);
+ if(u.pathname==="/api/account/backup-codes"&&req.method==="POST")return lunidBackupCodes(req,env);
+ if(u.pathname==="/api/auth/lunid/reset"&&req.method==="POST")return lunidBackupReset(req,env);
+ if(u.pathname==="/api/auth/lunid/forgot"&&req.method==="POST")return recoveryResponse(req,env,{error:"Update LunOS to reset your password with a backup code."},410);
  if(u.pathname==="/api/mesh/number"&&req.method==="POST")return meshNumberRegister(req,env);
  if(u.pathname==="/api/mesh/vault-access"&&req.method==="GET")return meshVaultAccess(req,env);
  if(u.pathname.startsWith("/api/mesh/number/")&&req.method==="GET")return meshNumberLookup(req,env,u);
