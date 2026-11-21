@@ -4,15 +4,15 @@ const O="LunOS-Official",R="lunos-apps",MAX=25*1024*1024;
 const PACK_KINDS=Object.freeze({theme:".zip",wallpaper:".zip","live-wallpaper":".zip",icon:".zip",font:".zip",cursor:".zip",sound:".zip"});
 const LUNITE_CAPABILITIES=Object.freeze({schema:1,client:"Lunite",projectTypes:["gui","theme","cli","wallpaper","live-wallpaper","icon","font","cursor","widget","sound","runtime"],resourceTypes:Object.keys(PACK_KINDS),packageTypes:{resources:"zip",applications:"ln"},maxPackageBytes:MAX,font:{blendPercent:[0,100],intermediateRendering:"outline-v1",fallback:"static-outline",legacyIntermediateRendering:"COLR-v1",legacyFallback:"dominant-outline",colorModes:["monochrome","color","fixed"]},developerAPI:{filesSave:true,minVersion:"1.9",destination:"client-side LunOS picker"}});
 
+const isAuthPath=req=>{try{return new URL(req.url).pathname.startsWith("/auth/")}catch{return false}};
 const C=(env,req)=>{
   const o=req?.headers.get("Origin")||"";
+  const strict=isAuthPath(req)||String(env?.STRICT_API_CORS||"").toLowerCase()==="true";
   const hasPolicy=!!(env?.APP_ORIGIN||env?.APP_ALLOWED_ORIGINS);
   let allowOrigin="*";
-  if(hasPolicy){
+  if(strict&&hasPolicy){
     const matched=o?allowedReturn(o,env):"";
     allowOrigin=matched||(env?.APP_ORIGIN?allowedReturn(env.APP_ORIGIN,env):"");
-  }else if(o){
-    allowOrigin=o;
   }
   const h={"Access-Control-Allow-Methods":"GET,POST,PATCH,DELETE,OPTIONS","Access-Control-Allow-Headers":"Content-Type,Authorization","Vary":"Origin"};
   if(allowOrigin)h["Access-Control-Allow-Origin"]=allowOrigin;
@@ -164,6 +164,34 @@ async function touchActivity(env,sub){
     return Number(prev)||0;
   }catch{return 0}
 }
+const isRealEmail=v=>/^[^\s@<>,"']+@[^\s@<>,"']+\.[^\s@<>,"']+$/.test(String(v||"").trim())&&!/@lunos$/i.test(String(v||"").trim());
+async function deliverableEmailFor(env,sub){
+  if(!sub)return "";
+  try{
+    const rows=await sb(env,`profiles?google_sub=eq.${encodeURIComponent(sub)}&select=recovery_email,lunid`);
+    if(isRealEmail(rows?.[0]?.recovery_email))return String(rows[0].recovery_email).trim().toLowerCase();
+  }catch{}
+  try{
+    const rows=await sb(env,`developers?google_sub=eq.${encodeURIComponent(sub)}&select=email`);
+    if(isRealEmail(rows?.[0]?.email))return String(rows[0].email).trim().toLowerCase();
+  }catch{}
+  return "";
+}
+async function sendGmailBridge(env,{to,subject,text,replyTo=""}){
+  const url=String(env?.EMAIL_WEBHOOK_URL||"").trim();
+  const secret=String(env?.EMAIL_WEBHOOK_SECRET||"").trim();
+  if(!url||!secret||!isRealEmail(to))return {ok:false,skipped:true};
+  try{
+    const payload={secret,to:String(to).trim().toLowerCase(),subject:String(subject||"").slice(0,160),text:String(text||"").slice(0,6000)};
+    if(isRealEmail(replyTo))payload.replyTo=String(replyTo).trim().toLowerCase();
+    const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),redirect:"follow"});
+    const d=await r.json().catch(()=>({ok:r.ok}));
+    return {ok:!!(r.ok&&d?.ok!==false),detail:d};
+  }catch(e){
+    console.error("LunOS Gmail bridge failed:",e?.message||e);
+    return {ok:false,error:String(e?.message||e)};
+  }
+}
 function accountLogin(u){return String(u?.email||u?.lunid||u?.username||u?.sub||"developer").trim().toLowerCase()}
 const GENERIC_PUBLISHER_NAMES=new Set(["lunos","lunos official","official lunos","lunos project","lunos developer","lunos developer team","developer"]);
 function safePublisherName(...values){for(const value of values){const name=String(value||"").replace(/[\x00-\x1f\x7f]/g,"").trim().slice(0,120);if(!name)continue;const key=name.toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();if(!GENERIC_PUBLISHER_NAMES.has(key))return name}return ""}
@@ -195,8 +223,10 @@ async function user(req,env,strict=false){
 function allowedReturn(value,env){
   try{
     const target=new URL(value);
+    if(!['http:','https:'].includes(target.protocol))return '';
+    if(String(env?.ALLOW_LOCALHOST_OAUTH||'').toLowerCase()==='true'&&target.protocol==='http:'&&(target.hostname==='localhost'||target.hostname==='127.0.0.1'))return target.origin;
     const allowed=[env.APP_ORIGIN,...String(env.APP_ALLOWED_ORIGINS||'').split(',')].filter(Boolean).map(x=>{try{return new URL(x.trim()).origin}catch{return ''}});
-    return ['http:','https:'].includes(target.protocol)&&allowed.includes(target.origin)?target.origin:'';
+    return allowed.includes(target.origin)?target.origin:'';
   }catch{return ''}
 }
 async function authStart(req,env){
@@ -538,7 +568,7 @@ async function lunidBackupReset(req,env){
     return send({error:'Password reset is temporarily unavailable.'},503);
   }
 }
-async function passwordChange(req,env){try{const u=await user(req,env);if(!u)throw Object.assign(Error("Sign in required"),{status:401});const p=await sbProfile(env,u);if(!p)return J({error:"Profile not found"},404,env,req);const b=await readJsonLimit(req,4096);const cur=String(b.currentPassword||""),nw=String(b.newPassword||"");const local=String(p.lunid||u.email||"").split("@")[0];const pwErr=validatePassword(nw,local);if(pwErr)return J({error:pwErr},400,env,req);const rows=await sb(env,`profiles?id=eq.${p.id}&select=password_hash`);const hash=rows&&rows[0]&&rows[0].password_hash;if(!hash)return J({error:"This account signs in with Google and has no LunID password to change."},400,env,req);if(!await pwCheck(cur,hash))return J({error:"Current password is incorrect."},403,env,req);if(cur===nw)return J({error:"New password must be different from the current one."},400,env,req);const changed=await sb(env,`profiles?id=eq.${p.id}&password_hash=eq.${encodeURIComponent(hash)}`,{method:"PATCH",headers:{Prefer:"return=representation"},body:JSON.stringify({password_hash:await pwHash(nw)})});if(!changed?.length)return J({error:"Your password changed. Sign in again and retry."},409,env,req);const cutoff=Date.now();try{await sb(env,"rpc/revoke_lunos_sessions",{method:"POST",body:JSON.stringify({p_subject_key:await subjectKey(u.sub,env),p_cutoff:cutoff})})}catch(err){console.error("Session revocation after password change unavailable",err?.code||"")}const freshToken=await session({sub:u.sub,email:u.email,name:u.name||"",picture:u.pic||""},env,cutoff+1);return J({ok:true,token:freshToken},200,env,req)}catch(e){return J({error:e.message||"Password change failed"},e.status||500,env,req)}}
+async function passwordChange(req,env){try{const u=await user(req,env);if(!u)throw Object.assign(Error("Sign in required"),{status:401});const p=await sbProfile(env,u);if(!p)return J({error:"Profile not found"},404,env,req);const b=await readJsonLimit(req,4096);const cur=String(b.currentPassword||""),nw=String(b.newPassword||"");const local=String(p.lunid||u.email||"").split("@")[0];const pwErr=validatePassword(nw,local);if(pwErr)return J({error:pwErr},400,env,req);const rows=await sb(env,`profiles?id=eq.${p.id}&select=password_hash`);const hash=rows&&rows[0]&&rows[0].password_hash;if(!hash)return J({error:"This account signs in with Google and has no LunID password to change."},400,env,req);if(!await pwCheck(cur,hash))return J({error:"Current password is incorrect."},403,env,req);if(cur===nw)return J({error:"New password must be different from the current one."},400,env,req);const changed=await sb(env,`profiles?id=eq.${p.id}&password_hash=eq.${encodeURIComponent(hash)}`,{method:"PATCH",headers:{Prefer:"return=representation"},body:JSON.stringify({password_hash:await pwHash(nw)})});if(!changed?.length)return J({error:"Your password changed. Sign in again and retry."},409,env,req);const cutoff=Date.now();try{await sb(env,"rpc/revoke_lunos_sessions",{method:"POST",body:JSON.stringify({p_subject_key:await subjectKey(u.sub,env),p_cutoff:cutoff})})}catch(err){console.error("Session revocation after password change unavailable",err?.code||"")}const freshToken=await session({sub:u.sub,email:u.email,name:u.name||"",picture:u.pic||""},env,cutoff+1);if(env.EMAIL_WEBHOOK_URL&&env.EMAIL_WEBHOOK_SECRET){const email=await deliverableEmailFor(env,u.sub);if(email)await sendGmailBridge(env,{to:email,subject:"LunOS Security Alert: Your LunID password was changed",text:`Hi ${u.name||p.lunid||"there"},\n\nThe password for your LunID (${p.lunid||u.email}) was just changed, and all other active sessions were signed out.\n\nIf you did not make this change, use one of your LunOS backup codes immediately to reset your password.`})}return J({ok:true,token:freshToken},200,env,req)}catch(e){return J({error:e.message||"Password change failed"},e.status||500,env,req)}}
 async function revokeAllSessions(req,env){
   try{
     const u=await user(req,env,true);
@@ -623,9 +653,20 @@ async function submitAppeal(req,env){
     const acct=await authenticateForAppeal(req,env,b);
     if(!acct)return J({error:"Sign in or enter your LunID and password to submit an appeal."},401,env,req);
     const reason=String(b.reason||"").trim().slice(0,1500);
+    const contactEmail=isRealEmail(b.contactEmail)?String(b.contactEmail).trim().toLowerCase():"";
     if(reason.length<10)return J({error:"Please explain your appeal in at least 10 characters."},400,env,req);
     const res=await sb(env,"rpc/submit_lunos_appeal",{method:"POST",body:JSON.stringify({p_subject:acct.sub,p_lunid:acct.lunid,p_reason:reason})});
     if(!res?.ok)return J({error:res?.error||"Appeal could not be submitted",...(res?.code?{code:res.code}:{}),...(res?.appealId?{appealId:res.appealId}:{})},res?.code?409:400,env,req);
+    const adminTo=env.ADMIN_EMAIL||env.OWNER_GOOGLE_EMAIL||"";
+    if(adminTo&&env.EMAIL_WEBHOOK_URL&&env.EMAIL_WEBHOOK_SECRET){
+      const replyTo=contactEmail||await deliverableEmailFor(env,acct.sub);
+      await sendGmailBridge(env,{
+        to:adminTo,
+        replyTo,
+        subject:`[LunOS Appeal] ${acct.lunid||acct.sub} Â· Ticket ${String(res.appealId||"").slice(0,8)}`,
+        text:`A user submitted an account suspension appeal in LunOS.\n\nTicket ID: ${res.appealId}\nAccount: ${acct.lunid||acct.sub}\nCurrent Status: ${acct.status}\nSuspension Reason: ${acct.reason||"(none recorded)"}\nUser Reply Email: ${replyTo||"(none provided â€” respond via in-app review)"}\n\nAppeal Message:\n${reason}\n`
+      });
+    }
     return J({ok:true,appealId:res.appealId,status:res.status||"pending",createdAt:res.createdAt},201,env,req);
   }catch(e){return J({error:e.message||"Appeal service unavailable"},e.status||503,env,req)}
 }
@@ -649,6 +690,16 @@ async function reviewAppealAdmin(req,env){
     if(!/^[0-9a-f-]{36}$/i.test(appealId))return J({error:"Invalid appealId"},400,env,req);
     const res=await sb(env,"rpc/review_lunos_appeal",{method:"POST",body:JSON.stringify({p_appeal_id:appealId,p_status:status,p_admin_note:adminNote,p_unban:unban})});
     if(!res?.ok)return J({error:res?.error||"Review failed"},400,env,req);
+    if(env.EMAIL_WEBHOOK_URL&&env.EMAIL_WEBHOOK_SECRET){
+      const userEmail=isRealEmail(b.notifyEmail)?String(b.notifyEmail).trim().toLowerCase():(res.accountSubject?await deliverableEmailFor(env,res.accountSubject):"");
+      if(userEmail){
+        await sendGmailBridge(env,{
+          to:userEmail,
+          subject:`LunOS Appeal Update (${status.toUpperCase()}) Â· Ticket ${appealId.slice(0,8)}`,
+          text:`Your LunOS account appeal (Ticket ${appealId.slice(0,8)}) has been reviewed.\n\nDecision: ${status.toUpperCase()}${res.unbanned?" (Your account access has been restored)":""}\n${adminNote?`\nAdministrator Note:\n${adminNote}\n`:""}\nYou can also view this status anytime inside LunOS Account Center.`
+        });
+      }
+    }
     return J(res,200,env,req);
   }catch(e){return J({error:e.message||"Review unavailable"},e.status||503,env,req)}
 }
@@ -675,7 +726,7 @@ export default{async fetch(req,env,ctx){
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:C(env,req)});
  if(req.method==="GET"&&u.pathname==="/")return J({service:"LunOS Publisher",purpose:"Official server-side developer authentication and LNPK package publishing service for the LunOS App Repository",status:"online",version:"0.28.0",capabilities:"/api/capabilities",repository:`https://github.com/${O}/${R}`,auth:"Google",upload:"/api/upload",catalog:"/api/catalog",search:"/api/search",developerApps:"/api/developer",download:"/api/download",reviews:"/api/reviews"},200,env,req);
  if(req.method==="GET"&&u.pathname==="/api/capabilities")return J(LUNITE_CAPABILITIES,200,env,req);
- if(req.method==="GET"&&u.pathname==="/api/status")return J({service:"LunOS Publisher",status:"ready",githubConfigured:!!env.GITHUB_TOKEN,googleConfigured:!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.SESSION_SECRET),reviewsConfigured:!!env.LUNOS_DB,turnstileEnabled:!!env.TURNSTILE_SECRET},200,env,req);
+ if(req.method==="GET"&&u.pathname==="/api/status")return J({service:"LunOS Publisher",status:"ready",githubConfigured:!!env.GITHUB_TOKEN,googleConfigured:!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.SESSION_SECRET),reviewsConfigured:!!env.LUNOS_DB,turnstileEnabled:!!env.TURNSTILE_SECRET,emailBridgeConfigured:!!(env.EMAIL_WEBHOOK_URL&&env.EMAIL_WEBHOOK_SECRET)},200,env,req);
 if(u.pathname==="/privacy"&&req.method==="GET")return new Response(`<!doctype html><meta charset="utf-8"><title>LunOS Privacy Policy</title><body style="font-family:system-ui;max-width:720px;margin:40px auto;padding:0 16px"><h1>Privacy Policy</h1><p>LunOS only accesses the Google Drive files you explicitly create or open with LunOS (drive.file scope) and your basic profile for authentication. Your data is never sold or shared with third parties.</p></body>`,{headers:{"Content-Type":"text/html;charset=utf-8"}});
 if(u.pathname==="/terms"&&req.method==="GET")return new Response(`<!doctype html><meta charset="utf-8"><title>LunOS Terms of Service</title><body style="font-family:system-ui;max-width:720px;margin:40px auto;padding:0 16px"><h1>Terms of Service</h1><p>LunOS is provided as-is for personal and developer use. You retain full ownership of all files stored in your connected cloud drives.</p></body>`,{headers:{"Content-Type":"text/html;charset=utf-8"}});
 if(u.pathname==="/auth/google"&&req.method==="GET")return authStart(req,env);
@@ -715,6 +766,24 @@ if(u.pathname==="/auth/cloud/refresh"&&req.method==="POST")return cloudOAuthRefr
  return J({error:"Not found"},404,env,req)
 },
 async scheduled(event,env,ctx){
+  if(env.EMAIL_WEBHOOK_URL&&env.EMAIL_WEBHOOK_SECRET){
+    try{
+      const toWarn=await sb(env,"rpc/claim_inactivity_warnings",{method:"POST",body:JSON.stringify({p_warn_days:180,p_batch_limit:15})});
+      if(Array.isArray(toWarn)){
+        for(const item of toWarn){
+          if(!item?.email)continue;
+          const left=Math.max(1,365-Number(item.daysInactive||180));
+          await sendGmailBridge(env,{
+            to:item.email,
+            subject:"LunOS Account Inactivity Notice â€” Sign in to keep your account active",
+            text:`Hi,\n\nYour LunOS account (${item.lunid||"LunID"}) has been inactive for ${item.daysInactive||180} days.\n\nUnder the LunOS Account Inactivity Policy, accounts without published apps that remain inactive for 365 days are automatically removed. You have approximately ${left} day(s) remaining.\n\nSimply open LunOS and sign in once to reset your 365-day timer.`
+          });
+        }
+      }
+    }catch(e){
+      console.error("LunOS inactivity warning email batch failed:",e?.message||e);
+    }
+  }
   try{
     const removed=await sb(env,"rpc/cleanup_inactive_lunos_accounts",{method:"POST",body:JSON.stringify({p_inactive_days:365,p_batch_limit:100})});
     console.log("LunOS inactive account cleanup completed, removed:",removed);
