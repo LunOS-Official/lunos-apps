@@ -60,9 +60,11 @@
           "package": "packages/BeamHTTP-1.0.0.ln",
           "url": "packages/BeamHTTP-1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "bytes-view",
@@ -116,9 +118,11 @@
           "package": "packages/BytesView-1.0.0.ln",
           "url": "packages/BytesView-1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "delta-compare",
@@ -172,9 +176,11 @@
           "package": "packages/DeltaCompare-1.0.0.ln",
           "url": "packages/DeltaCompare-1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "hello-test",
@@ -306,9 +312,11 @@
           "package": "packages/5.0.0.ln",
           "url": "packages/5.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         }
-      ]
+      ],
+      "type": "gui"
     },
     {
       "id": "knock-probe",
@@ -362,9 +370,11 @@
           "package": "packages/acoz/knock-probe/1.0.0.ln",
           "url": "packages/acoz/knock-probe/1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "nano-editor",
@@ -418,9 +428,11 @@
           "package": "packages/acoz/nano-editor/1.0.0.ln",
           "url": "packages/acoz/nano-editor/1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "org.lunos.demo.zipforge",
@@ -528,7 +540,8 @@
           "package": "packages/acoz/org.lunos.demo.zipforge/1.0.6.ln",
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.6.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -582,7 +595,8 @@
           "package": "packages/acoz/org.lunos.demo.zipforge/1.0.5.ln",
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.5.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -636,7 +650,8 @@
           "package": "packages/acoz/org.lunos.demo.zipforge/1.0.3.ln",
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.3.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -690,7 +705,8 @@
           "package": "packages/acoz/org.lunos.demo.zipforge/1.0.2.ln",
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.2.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -744,7 +760,8 @@
           "package": "packages/acoz/org.lunos.demo.zipforge/1.0.1.ln",
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.1.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -798,9 +815,11 @@
           "package": "packages/acoz/org.lunos.demo.zipforge/1.0.0.ln",
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         }
-      ]
+      ],
+      "type": "gui"
     },
     {
       "id": "org.lunos.developer-api-showcase",
@@ -888,7 +907,75 @@
           "package": "packages/acoz/org.lunos.developer-api-showcase/1.2.0.ln",
           "url": "packages/acoz/org.lunos.developer-api-showcase/1.2.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
+        }
+      ],
+      "type": "gui"
+    },
+    {
+      "id": "pro-hacker-aura",
+      "type": "theme",
+      "name": "Pro Hacker Aura",
+      "version": "1.0.0",
+      "appVersion": "1.0.0",
+      "category": "themes",
+      "publisher": {
+        "id": "LunOS-Official",
+        "name": "LunOS Official"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License"
+      },
+      "sourceVisibility": "open-source",
+      "description": "Original neon hacker-glass theme for LunOS: floating dock, terminal launcher, animated windows and full-system dark glass.",
+      "shortDescription": "Neon hacker glass theme with floating dock and animated windows.",
+      "keywords": [
+        "theme",
+        "hacker",
+        "neon",
+        "dark",
+        "glass"
+      ],
+      "sha256": "2711d8adad99cb7f88a6ba5dc0d8ee079179504ea1fa16b6b148029562f22d2c",
+      "sizeBytes": 169151,
+      "downloadUrl": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/Pro-Hacker-Aura-Pack%20(3).zip",
+      "package": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/Pro-Hacker-Aura-Pack%20(3).zip",
+      "url": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/Pro-Hacker-Aura-Pack%20(3).zip",
+      "publishedAt": "2026-10-13T01:39:59.689Z",
+      "versions": [
+        {
+          "id": "pro-hacker-aura",
+          "type": "theme",
+          "name": "Pro Hacker Aura",
+          "version": "1.0.0",
+          "appVersion": "1.0.0",
+          "category": "themes",
+          "publisher": {
+            "id": "LunOS-Official",
+            "name": "LunOS Official"
+          },
+          "license": {
+            "id": "MIT",
+            "name": "MIT License"
+          },
+          "sourceVisibility": "open-source",
+          "description": "Original neon hacker-glass theme for LunOS: floating dock, terminal launcher, animated windows and full-system dark glass.",
+          "shortDescription": "Neon hacker glass theme with floating dock and animated windows.",
+          "keywords": [
+            "theme",
+            "hacker",
+            "neon",
+            "dark",
+            "glass"
+          ],
+          "sha256": "2711d8adad99cb7f88a6ba5dc0d8ee079179504ea1fa16b6b148029562f22d2c",
+          "sizeBytes": 169151,
+          "downloadUrl": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/Pro-Hacker-Aura-Pack%20(3).zip",
+          "package": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/Pro-Hacker-Aura-Pack%20(3).zip",
+          "url": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/Pro-Hacker-Aura-Pack%20(3).zip",
+          "publishedAt": "2026-10-13T01:39:59.689Z"
         }
       ]
     },
@@ -938,9 +1025,11 @@
           "package": "packages/PulseMonitor-1.0.0.ln",
           "url": "packages/PulseMonitor-1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "python-test",
@@ -994,7 +1083,8 @@
           "package": "packages/acoz/python-test/1.0.1.ln",
           "url": "packages/acoz/python-test/1.0.1.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         },
         {
           "id": "python-test",
@@ -1021,9 +1111,11 @@
           "package": "packages/acoz/python-test/1.0.0.ln",
           "url": "packages/acoz/python-test/1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "gui"
         }
-      ]
+      ],
+      "type": "gui"
     },
     {
       "id": "seal-codec",
@@ -1077,9 +1169,11 @@
           "package": "packages/SealCodec-1.0.0.ln",
           "url": "packages/SealCodec-1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "sift-json",
@@ -1133,9 +1227,11 @@
           "package": "packages/SiftJSON-1.0.0.ln",
           "url": "packages/SiftJSON-1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "tide-editor",
@@ -1189,9 +1285,11 @@
           "package": "packages/acoz/tide-editor/2.3.4.ln",
           "url": "packages/acoz/tide-editor/2.3.4.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "cli"
         }
-      ]
+      ],
+      "type": "cli"
     },
     {
       "id": "widget-demo",
@@ -1239,9 +1337,12 @@
           "package": "packages/acoz/widget-demo/1.0.0.ln",
           "url": "packages/acoz/widget-demo/1.0.0.ln",
           "manifestFormat": "LNPK",
-          "manifestVersion": 1
+          "manifestVersion": 1,
+          "type": "widget"
         }
-      ]
+      ],
+      "type": "widget"
     }
-  ]
+  ],
+  "hfBaseUrl": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/"
 }
