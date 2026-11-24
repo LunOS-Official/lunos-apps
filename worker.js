@@ -409,9 +409,9 @@ async function upload(req,env){
   const existingVersions=owner?versionsOf(owner):[],firstPublishedAt=existingVersions.find(x=>x.firstPublishedAt)?.firstPublishedAt||existingVersions[0]?.publishedAt||now;
   const entry={
    ...m,id:m.id,name:m.name,version:m.appVersion,appVersion:m.appVersion,
-   type:kind||m.type||undefined,publisher:{id:dev,name:publisherName,...(oKey?{ownerKey:oKey}:{})},license:m.license||{id:"unspecified",name:"See package"},
+   type:kind||m.type||"gui",publisher:{id:dev,name:publisherName,...(oKey?{ownerKey:oKey}:{})},license:m.license||{id:"unspecified",name:"See package"},
    sourceVisibility:m.sourceVisibility||"private-source",description:m.description||"",
-   screenshots:Array.isArray(m.screenshots)?m.screenshots:[],iconUrl:m.iconUrl||null,
+   screenshots:Array.isArray(m.screenshots)?m.screenshots:[],iconUrl:m.iconUrl||null,iconFile:m.iconUrl?String(m.iconUrl).split("/").pop():null,
    featureGraphic:m.featureGraphic||null,permissions:Array.isArray(m.permissions)?m.permissions:[],
    dependencies:Array.isArray(m.dependencies)?m.dependencies:[],keywords:Array.isArray(m.keywords)?m.keywords:[],
    targets:Array.isArray(m.targets)?m.targets:[],features:Array.isArray(m.features)?m.features:[],
