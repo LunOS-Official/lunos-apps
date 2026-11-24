@@ -7,6 +7,7 @@
   "purpose": "Official catalog and package repository for applications distributed by the LunOS operating system.",
   "baseUrl": "https://raw.githubusercontent.com/LunOS-Official/lunos-apps/main/",
   "packageFormat": "LNPK",
+  "hfBaseUrl": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/",
   "packages": [
     {
       "id": "beam-http",
@@ -34,6 +35,7 @@
       "url": "packages/BeamHTTP-1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "beam-http",
@@ -63,8 +65,7 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
     },
     {
       "id": "bytes-view",
@@ -92,6 +93,7 @@
       "url": "packages/BytesView-1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "bytes-view",
@@ -121,8 +123,7 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
     },
     {
       "id": "delta-compare",
@@ -150,6 +151,7 @@
       "url": "packages/DeltaCompare-1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "delta-compare",
@@ -179,8 +181,55 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
+    },
+    {
+      "id": "font-km1fug",
+      "name": "New Font",
+      "type": "font",
+      "version": "1.0.0",
+      "appVersion": "1.0.0",
+      "category": "other",
+      "publisher": {
+        "id": "developer",
+        "name": "LunOS Demo Lab"
+      },
+      "license": {
+        "id": "Bitstream-Vera",
+        "name": "DejaVu / Bitstream Vera license"
+      },
+      "sourceVisibility": "open-source",
+      "description": "A LunOS font made with Lunite.",
+      "sizeBytes": 374452,
+      "sha256": "b2fd1599a5a510a5c5a650b9ae86b4da2a6f0e8fa497ecf80446fdae5116fe78",
+      "package": "packs/acoz/font-km1fug/1.0.0.zip",
+      "url": "packs/acoz/font-km1fug/1.0.0.zip",
+      "manifestVersion": 1,
+      "versions": [
+        {
+          "id": "font-km1fug",
+          "name": "New Font",
+          "type": "font",
+          "version": "1.0.0",
+          "appVersion": "1.0.0",
+          "category": "other",
+          "publisher": {
+            "id": "developer",
+            "name": "LunOS Demo Lab"
+          },
+          "license": {
+            "id": "Bitstream-Vera",
+            "name": "DejaVu / Bitstream Vera license"
+          },
+          "sourceVisibility": "open-source",
+          "description": "A LunOS font made with Lunite.",
+          "sizeBytes": 374452,
+          "sha256": "b2fd1599a5a510a5c5a650b9ae86b4da2a6f0e8fa497ecf80446fdae5116fe78",
+          "package": "packs/acoz/font-km1fug/1.0.0.zip",
+          "url": "packs/acoz/font-km1fug/1.0.0.zip",
+          "manifestVersion": 1
+        }
+      ]
     },
     {
       "id": "hello-test",
@@ -247,6 +296,9 @@
       "url": "packages/5.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "gui",
+      "iconFile": "icon.png",
+      "featureFile": "feature.webp",
       "versions": [
         {
           "id": "hello-test",
@@ -313,10 +365,11 @@
           "url": "packages/5.0.0.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1,
-          "type": "gui"
+          "type": "gui",
+          "iconFile": "icon.png",
+          "featureFile": "feature.webp"
         }
-      ],
-      "type": "gui"
+      ]
     },
     {
       "id": "knock-probe",
@@ -344,6 +397,7 @@
       "url": "packages/acoz/knock-probe/1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "knock-probe",
@@ -373,8 +427,7 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
     },
     {
       "id": "nano-editor",
@@ -402,6 +455,7 @@
       "url": "packages/acoz/nano-editor/1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "nano-editor",
@@ -431,8 +485,7 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
     },
     {
       "id": "org.lunos.demo.zipforge",
@@ -441,7 +494,7 @@
       "category": "utilities",
       "publisher": {
         "id": "acoz",
-        "name": "Acoz"
+        "name": "LunOS Demo Lab"
       },
       "license": {
         "id": "MIT",
@@ -487,6 +540,9 @@
       "url": "packages/acoz/org.lunos.demo.zipforge/1.0.6.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "gui",
+      "iconFile": "icon.svg",
+      "featureFile": "feature.svg",
       "versions": [
         {
           "id": "org.lunos.demo.zipforge",
@@ -495,7 +551,7 @@
           "category": "utilities",
           "publisher": {
             "id": "acoz",
-            "name": "Acoz"
+            "name": "LunOS Demo Lab"
           },
           "license": {
             "id": "MIT",
@@ -541,7 +597,9 @@
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.6.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1,
-          "type": "gui"
+          "type": "gui",
+          "iconFile": "icon.svg",
+          "featureFile": "feature.svg"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -550,7 +608,7 @@
           "category": "utilities",
           "publisher": {
             "id": "acoz",
-            "name": "Acoz"
+            "name": "LunOS Demo Lab"
           },
           "license": {
             "id": "MIT",
@@ -596,7 +654,9 @@
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.5.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1,
-          "type": "gui"
+          "type": "gui",
+          "iconFile": "icon.svg",
+          "featureFile": "feature.svg"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -605,7 +665,7 @@
           "category": "utilities",
           "publisher": {
             "id": "acoz",
-            "name": "Acoz"
+            "name": "LunOS Demo Lab"
           },
           "license": {
             "id": "MIT",
@@ -651,7 +711,9 @@
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.3.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1,
-          "type": "gui"
+          "type": "gui",
+          "iconFile": "icon.svg",
+          "featureFile": "feature.svg"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -660,7 +722,7 @@
           "category": "utilities",
           "publisher": {
             "id": "acoz",
-            "name": "Acoz"
+            "name": "LunOS Demo Lab"
           },
           "license": {
             "id": "MIT",
@@ -706,7 +768,9 @@
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.2.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1,
-          "type": "gui"
+          "type": "gui",
+          "iconFile": "icon.svg",
+          "featureFile": "feature.svg"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -715,7 +779,7 @@
           "category": "utilities",
           "publisher": {
             "id": "acoz",
-            "name": "Acoz"
+            "name": "LunOS Demo Lab"
           },
           "license": {
             "id": "MIT",
@@ -761,7 +825,9 @@
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.1.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1,
-          "type": "gui"
+          "type": "gui",
+          "iconFile": "icon.svg",
+          "featureFile": "feature.svg"
         },
         {
           "id": "org.lunos.demo.zipforge",
@@ -770,7 +836,7 @@
           "category": "utilities",
           "publisher": {
             "id": "acoz",
-            "name": "Acoz"
+            "name": "LunOS Demo Lab"
           },
           "license": {
             "id": "MIT",
@@ -816,10 +882,11 @@
           "url": "packages/acoz/org.lunos.demo.zipforge/1.0.0.ln",
           "manifestFormat": "LNPK",
           "manifestVersion": 1,
-          "type": "gui"
+          "type": "gui",
+          "iconFile": "icon.svg",
+          "featureFile": "feature.svg"
         }
-      ],
-      "type": "gui"
+      ]
     },
     {
       "id": "org.lunos.developer-api-showcase",
@@ -828,7 +895,7 @@
       "category": "development",
       "publisher": {
         "id": "acoz",
-        "name": "Acoz"
+        "name": "LunOS Demo Lab"
       },
       "license": {
         "id": "MIT",
@@ -864,6 +931,7 @@
       "url": "packages/acoz/org.lunos.developer-api-showcase/1.2.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "gui",
       "versions": [
         {
           "id": "org.lunos.developer-api-showcase",
@@ -872,7 +940,7 @@
           "category": "development",
           "publisher": {
             "id": "acoz",
-            "name": "Acoz"
+            "name": "LunOS Demo Lab"
           },
           "license": {
             "id": "MIT",
@@ -910,8 +978,7 @@
           "manifestVersion": 1,
           "type": "gui"
         }
-      ],
-      "type": "gui"
+      ]
     },
     {
       "id": "pro-hacker-aura",
@@ -1002,6 +1069,7 @@
       "url": "packages/PulseMonitor-1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "pulse-monitor",
@@ -1028,8 +1096,7 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
     },
     {
       "id": "python-test",
@@ -1057,6 +1124,7 @@
       "url": "packages/acoz/python-test/1.0.1.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "gui",
       "versions": [
         {
           "id": "python-test",
@@ -1114,8 +1182,7 @@
           "manifestVersion": 1,
           "type": "gui"
         }
-      ],
-      "type": "gui"
+      ]
     },
     {
       "id": "seal-codec",
@@ -1143,6 +1210,7 @@
       "url": "packages/SealCodec-1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "seal-codec",
@@ -1172,8 +1240,7 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
     },
     {
       "id": "sift-json",
@@ -1201,6 +1268,7 @@
       "url": "packages/SiftJSON-1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "sift-json",
@@ -1230,8 +1298,7 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
     },
     {
       "id": "tide-editor",
@@ -1259,6 +1326,7 @@
       "url": "packages/acoz/tide-editor/2.3.4.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "cli",
       "versions": [
         {
           "id": "tide-editor",
@@ -1288,8 +1356,7 @@
           "manifestVersion": 1,
           "type": "cli"
         }
-      ],
-      "type": "cli"
+      ]
     },
     {
       "id": "widget-demo",
@@ -1314,6 +1381,7 @@
       "url": "packages/acoz/widget-demo/1.0.0.ln",
       "manifestFormat": "LNPK",
       "manifestVersion": 1,
+      "type": "widget",
       "versions": [
         {
           "id": "widget-demo",
@@ -1340,9 +1408,7 @@
           "manifestVersion": 1,
           "type": "widget"
         }
-      ],
-      "type": "widget"
+      ]
     }
-  ],
-  "hfBaseUrl": "https://huggingface.co/buckets/lunos-official/lun-store/resolve/"
+  ]
 }
